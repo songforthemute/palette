@@ -8,7 +8,8 @@ module.exports = {
         extend: {
             colors: {
                 WH: "#FFF",
-                BK: "#000",
+                GR: "#BBB",
+                BK: "#111",
             },
             opacity: {
                 low: "0.3",
@@ -17,13 +18,16 @@ module.exports = {
             },
             ringColor: {
                 WH: "#FFF",
-                BK: "#000",
+                GR: "#BBB",
+                BK: "#111",
             },
             textColor: {
                 WH: "#FFF",
-                BK: "#000",
+                GR: "#BBB",
+                BK: "#111",
             },
         },
     },
     darkMode: "media",
+    // plugins: [require("@tailwindcss/forms")],
 };

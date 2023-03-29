@@ -1,0 +1,16 @@
+.root {
+    @apply w-full py-2.5 px-4 rounded-xl transition duration-300 border-none
+        ease-in-out bg-WH shadow-md text-xl placeholder:text-GR;
+}
+
+/* .enabled:hover {
+    @apply;
+} */
+
+.enabled:focus {
+    @apply outline-none;
+}
+
+.disabled {
+    @apply outline-none italic bg-gray-100;
+}
