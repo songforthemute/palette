@@ -30,17 +30,8 @@ const Layout: FC<Props> = ({
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <>
-                {/* <header> */}
-                {/* 뒤로가기 버튼, 사이드 바? */}
-                {/* </header> */}
-
-                <main className={s.main}>{children}</main>
-
-                {/* <footer> */}
-                {/* copyright */}
-                {/* </footer> */}
-            </>
+            {/* header, footer inside main */}
+            <main className={s.main}>{children}</main>
         </>
     );
 };

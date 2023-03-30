@@ -1,9 +1,7 @@
-import { Card, Container, Form, Input } from "@components/Atoms";
+import { Button, Card, Container, Form, Input } from "@components/Atoms";
 import Layout from "@components/layout";
 import { cls } from "@libs/functions";
-import useMutate from "@libs/useMutate";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface FormInterface {
@@ -19,7 +17,7 @@ const Home = () => {
     const onSubmit = (data: any) => {
         console.log(data);
 
-        // push(`/${data.keyword}`);
+        push(`/${data.keyword}`);
     };
 
     // const [func, { data, loading, error }] = useMutate<FormInterface>({
@@ -59,21 +57,150 @@ const Home = () => {
             </div>
 
             <Container>
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"first"} />
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"} />
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"third"} />
-
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"first"} />
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"} />
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"third"} />
-
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"first"} />
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"} />
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"third"} />
-
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"first"} />
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"} />
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"third"} />
+                <Card className={cls(`bg-[#000]`)} size={"first"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#AABBCC]`)} size={"third"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#FF99AA]`)} size={"first"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#99FFAA]`)} size={"second"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#AA99FF]`)} size={"third"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#9A9F99]`)} size={"first"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#FAA99F]`)} size={"second"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#AABBCC]`)} size={"third"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#000]`)} size={"first"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#AABBCC]`)} size={"third"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#FF99AA]`)} size={"first"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#99FFAA]`)} size={"second"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#AA99FF]`)} size={"third"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#9A9F99]`)} size={"first"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#FAA99F]`)} size={"second"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
+                <Card className={cls(`bg-[#AABBCC]`)} size={"third"}>
+                    <Button className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]">
+                        HEX
+                    </Button>
+                    <Button className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]">
+                        RGB
+                    </Button>
+                </Card>
             </Container>
         </Layout>
     );

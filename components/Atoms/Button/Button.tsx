@@ -7,8 +7,12 @@ interface Props {
     className?: string;
 }
 
-const Button: FC<Props> = ({ children, className = "" }) => {
-    return <button className={cls(s.root, className)}>{children}</button>;
+const Button: FC<Props> = ({ children, className = "", ...rest }) => {
+    return (
+        <button className={cls(s.root, className)} {...rest}>
+            {children}
+        </button>
+    );
 };
 
 export default Button;

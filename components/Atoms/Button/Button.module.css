@@ -1,3 +1,15 @@
 .root {
-    @apply bg-transparent rounded-xl border-none justify-center items-center shadow-md;
+    @apply opacity-50 bg-WH rounded-xl border-none justify-center items-center
+    transition duration-300 ease-in-out;
+    /* -webkit-box-shadow: inset 10px 10px 40px -8px rgba(255, 255, 255, 0.5);
+    -moz-box-shadow: inset 10px 10px 40px -8px rgba(255, 255, 255, 0.5);
+    box-shadow: inset 10px 10px 40px -8px rgba(255, 255, 255, 0.5); */
+}
+
+.root:hover {
+    @apply opacity-100;
+}
+
+.root:focus {
+    @apply outline-none opacity-100 ring-1 ring-BK;
 }
