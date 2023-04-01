@@ -1,23 +1,25 @@
 import { Button, Card, Container, Form, Input } from "@components/Atoms";
 import Layout from "@components/layout/Layout";
-import { cardSizeConvertor, hexToRGB } from "@libs/functions";
+import { cardSizeConvertor, cls, convertColorType } from "@libs/functions";
 import useMutate from "@libs/useMutate";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-interface FormInterface {
+interface FetchInterface {
     [key: string]: string | any;
     payload: {
         [key: string]: string; // [relatedItem]: hex color code
     };
 }
 
-interface Props {
-    //
+type colorType = "HEX" | "RGB";
+
+interface FormInterface {
+    id: string;
 }
 
-const Search = ({}: Props) => {
+const Search = () => {
     const [state, setState] = useState<{ [key: string]: string }>({
         "0": "#FFF",
         "1": "#FFF",
@@ -55,40 +57,68 @@ const Search = ({}: Props) => {
         query: { id },
     } = useRouter();
 
-    const [fetching, { data, loading, error }] = useMutate<FormInterface>({
-        url: "/api/test", // /api/hello
+    const [fetching, { data }] = useMutate<FetchInterface>({
+        url: "/api/test",
         method: "POST",
     });
 
-    const { register, handleSubmit } = useForm<FormInterface>({
+    const { register, handleSubmit, setValue } = useForm<FormInterface>({
         reValidateMode: "onBlur",
     });
     const { push } = useRouter();
 
     const onSubmit = (data: any) => {
-        console.log(data);
-
-        push(`/${data.keyword}`);
+        push(`/${data.id}`);
     };
 
+    // press hex/rgb button
+    const onClickCopy = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+        const {
+            dataset: { code, item },
+            innerText,
+        } = e.currentTarget;
+
+        // global state change: copy color code
+        if (typeof navigator !== "undefined" && navigator.clipboard) {
+            navigator.clipboard.writeText(code as string);
+        }
+
+        // e.currentTarget.innerText = "Copied!"; // No Manipulate directly
+
+        // display 'copied!' message
+        setState((prev) => ({
+            ...prev,
+            [item as string]: "Copied!",
+        }));
+
+        setTimeout(() => {
+            // (e.target as HTMLButtonElement).innerText = innerText; // No Manipulate directly
+
+            // return to original state
+            setState((prev) => ({
+                ...prev,
+                [item as string]: convertColorType(
+                    code as string,
+                    innerText as colorType
+                ),
+            }));
+        }, 1500);
+    }, []);
+
+    // initialize
     useEffect(() => {
-        // console.log(id);
-
-        if (id === undefined) return;
-
-        fetching(id);
+        if (id !== undefined) {
+            setValue("id", id as string);
+            fetching(id);
+        }
     }, [id]);
 
+    // data mapping
     useEffect(() => {
         if (data && Object.keys(data).length) {
-            // console.log(data);
-            // console.log(data.payload);
-
-            // data mapping
             setState({
                 ...data.payload,
             });
-            // console.log(state);
         }
     }, [data]);
 
@@ -98,20 +128,21 @@ const Search = ({}: Props) => {
             metaDescription={`Colors and items related on ${id}.`}
         >
             <header>
-                <div className="flex justify-center items-center">
-                    <div className="text-WH px-4">
-                        What color do you have in mind? 🤔
-                    </div>
+                <div className="flex w-full justify-center items-center">
+                    <h1 className="text-WH text-center drop-shadow-md text-3xl md:text-4xl mx-4">
+                        Palette 🎨
+                    </h1>
 
                     <Form
                         onSubmit={handleSubmit(onSubmit)}
                         ariaLabel="form"
                         ariaRoledescription="form"
+                        className="w-full max-w-[50%]"
                     >
                         <Input
                             required
                             placeholder="Hi there"
-                            {...register("keyword", {
+                            {...register("id", {
                                 required: "검색할 키워드를 입력해주세요.",
                             })}
                         />
@@ -120,43 +151,49 @@ const Search = ({}: Props) => {
             </header>
 
             <Container>
-                {
-                    Object.keys(state).map((item, index) => (
-                        <Card
-                            size={cardSizeConvertor(index)}
-                            key={`item_${index}`}
-                            style={{
-                                backgroundColor: `${state[item]}`,
-                            }}
-                            className={
-                                data?.payload
-                                    ? ""
-                                    : "animate-pulse bg-opacity-25"
-                            }
-                        >
-                            {data?.payload ? (
-                                <>
-                                    <span className="absolute font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
-                                        {item}
+                {Object.keys(state).map((item, index) => (
+                    <Card
+                        size={cardSizeConvertor(index)}
+                        key={`item_${index}`}
+                        style={{
+                            backgroundColor: `${state[item]}`,
+                        }}
+                        className={cls(
+                            "relative transition duration-500 ease-in-out",
+                            data?.payload ? "" : "animate-pulse opacity-10"
+                        )}
+                    >
+                        {data?.payload ? (
+                            <>
+                                <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
+                                    <span className="text-center">{item}</span>
+                                    <span className="text-center">
+                                        {state[item]}
                                     </span>
-                                    <Button
-                                        data-code={state[item]}
-                                        className="absolute bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]"
-                                    >
-                                        HEX
-                                    </Button>
-                                    <Button
-                                        data-code={hexToRGB(state[item])}
-                                        className="absolute bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]"
-                                    >
-                                        RGB
-                                    </Button>
-                                </>
-                            ) : null}
-                        </Card>
-                    ))
-                    // : null
-                }
+                                </div>
+                                <Button
+                                    data-item={item}
+                                    data-code={state[item]}
+                                    onClick={onClickCopy}
+                                    className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]"
+                                >
+                                    HEX
+                                </Button>
+                                <Button
+                                    data-item={item}
+                                    data-code={convertColorType(
+                                        state[item],
+                                        "RGB"
+                                    )}
+                                    onClick={onClickCopy}
+                                    className="absolute text-center bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]"
+                                >
+                                    RGB
+                                </Button>
+                            </>
+                        ) : null}
+                    </Card>
+                ))}
             </Container>
         </Layout>
     );

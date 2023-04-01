@@ -14,15 +14,38 @@ export const cls = (...classNames: string[]): string => {
     return classNames.join(" ");
 };
 
-export const hexToRGB = (hex: string): string => {
-    const rbg = [];
+const rgbToHex = (rgb: string) => {
+    const [r, g, b] = rgb.split(", ").map(Number);
+    return (
+        "#" +
+        ((1 << 24) + (r << 16) + (g << 8) + b)
+            .toString(16)
+            .slice(1)
+            .toUpperCase()
+    );
+};
 
-    for (let i = 0; i < hex.length; i += 2) {
-        rbg.push(
-            (parseInt(hex[i], 16) + 1) * (parseInt(hex[i + 1], 16) + 1) - 1
-        );
+const hexToRgb = (hex: string) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `${r}, ${g}, ${b}`;
+};
+
+export const convertColorType = (
+    value: string,
+    target: "HEX" | "RGB"
+): string => {
+    // hex to RGB
+    if (target === "RGB") {
+        if (value[0] !== "#") return value;
+        return hexToRgb(value);
     }
-    return rbg.join(", ");
+    // RGB to hex
+    else {
+        if (value[0] === "#") return value;
+        return rgbToHex(value);
+    }
 };
 
 export const cardSizeConvertor = (

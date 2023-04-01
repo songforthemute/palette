@@ -1,5 +1,6 @@
 import { cls } from "@libs/functions";
 import type { CSSProperties, FC, ReactNode } from "react";
+import { memo } from "react";
 import s from "./Card.module.css";
 
 interface Props {
@@ -17,4 +18,4 @@ const Card: FC<Props> = ({ className = "", size, children, style }) => {
     );
 };
 
-export default Card;
+export default memo(Card);
