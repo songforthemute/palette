@@ -1,10 +1,11 @@
 .root {
     @apply rounded-xl m-2 p-2 border-none relative justify-center items-center
-    shadow-md transition duration-300 ease-in-out;
+    shadow-md transition duration-300 ease-out;
 }
 
 .root:hover {
     @apply shadow-2xl;
+    animation: slideY 2000ms infinite;
 }
 
 .first {
@@ -20,4 +21,16 @@
 .third {
     @apply w-auto h-72;
     grid-row-end: span 8;
+}
+
+@keyframes slideY {
+    0% {
+        transform: translateY(0rem);
+    }
+    50% {
+        transform: translateY(0.5rem);
+    }
+    100% {
+        transform: translateY(0rem);
+    }
 }

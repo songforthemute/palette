@@ -1,4 +1,5 @@
 import { Button, Card, Container, Form, Input } from "@components/Atoms";
+import { useFavor } from "@components/Contexts/favorContext";
 import Layout from "@components/layout/Layout";
 import { cardSizeConvertor, cls, convertColorType } from "@libs/functions";
 import useMutate from "@libs/useMutate";
@@ -71,6 +72,8 @@ const Search = () => {
         push(`/${data.id}`);
     };
 
+    const { poked, clearColor, pokeColor } = useFavor();
+
     // press hex/rgb button
     const onClickCopy = useCallback((e: MouseEvent<HTMLButtonElement>) => {
         const {
@@ -103,6 +106,23 @@ const Search = () => {
                 ),
             }));
         }, 1500);
+    }, []);
+
+    // press poke!
+    const onClickPoke = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+        const {
+            dataset: { code, item },
+        } = e.currentTarget;
+
+        pokeColor(`${item}`, convertColorType(`${code}`, "HEX"));
+    }, []);
+
+    const onClickClear = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+        const {
+            dataset: { item },
+        } = e.currentTarget;
+
+        clearColor(`${item}`);
     }, []);
 
     // initialize
@@ -151,6 +171,62 @@ const Search = () => {
             </header>
 
             <Container>
+                {Object.keys(poked ?? {})?.map((item, index) => (
+                    <Card
+                        size={"first"}
+                        key={`item_${index}`}
+                        style={{
+                            backgroundColor: `${poked[item]}`,
+                        }}
+                        className={cls(
+                            "relative transition duration-500 ease-in-out",
+                            data?.payload ? "" : "animate-pulse opacity-10"
+                        )}
+                    >
+                        {data?.payload ? (
+                            <>
+                                <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
+                                    <span className="text-center">{item}</span>
+                                    <span className="text-center">
+                                        {poked[item]}
+                                    </span>
+                                </div>
+                                <Button
+                                    data-item={item}
+                                    data-code={poked[item]}
+                                    onClick={onClickCopy}
+                                    className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
+                                >
+                                    HEX
+                                </Button>
+                                <Button
+                                    data-item={item}
+                                    data-code={convertColorType(
+                                        poked[item],
+                                        "RGB"
+                                    )}
+                                    onClick={onClickCopy}
+                                    className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
+                                >
+                                    RGB
+                                </Button>
+                                <Button
+                                    data-item={item}
+                                    data-code={poked[item]}
+                                    onClick={onClickClear}
+                                    className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
+                                >
+                                    ✖️
+                                </Button>
+                            </>
+                        ) : null}
+                    </Card>
+                ))}
+            </Container>
+
+            <hr className="border-[0.1rem] rounded-full opacity-30 mt-4" />
+
+            <Container>
                 {Object.keys(state).map((item, index) => (
                     <Card
                         size={cardSizeConvertor(index)}
@@ -175,7 +251,7 @@ const Search = () => {
                                     data-item={item}
                                     data-code={state[item]}
                                     onClick={onClickCopy}
-                                    className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 h-6 text-xs leading-[0.25rem]"
+                                    className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
                                 >
                                     HEX
                                 </Button>
@@ -186,9 +262,17 @@ const Search = () => {
                                         "RGB"
                                     )}
                                     onClick={onClickCopy}
-                                    className="absolute text-center bottom-3 left-[4rem] p-2.5 h-6 text-xs leading-[0.25rem]"
+                                    className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
                                 >
                                     RGB
+                                </Button>
+                                <Button
+                                    data-item={item}
+                                    data-code={state[item]}
+                                    onClick={onClickPoke}
+                                    className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
+                                >
+                                    ➕
                                 </Button>
                             </>
                         ) : null}
