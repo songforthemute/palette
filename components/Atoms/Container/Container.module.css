@@ -1,4 +1,4 @@
 .root {
-    @apply box-border md:mx-[15%] mt-4 grid gap-2 md:gap-3 items-center justify-center;
+    @apply box-border md:mx-[15%] mt-4 grid gap-2 md:gap-3 items-center justify-center transition-all duration-1000 ease-in-out;
     grid-template-columns: repeat(auto-fill, minmax(10rem, 2fr));
 }

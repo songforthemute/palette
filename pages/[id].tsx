@@ -4,7 +4,7 @@ import Layout from "@components/layout/Layout";
 import { cardSizeConvertor, cls, convertColorType } from "@libs/functions";
 import useMutate from "@libs/useMutate";
 import { useRouter } from "next/router";
-import { MouseEvent, useCallback, useEffect, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface FetchInterface {
@@ -74,6 +74,21 @@ const Search = () => {
 
     const { poked, clearColor, pokeColor } = useFavor();
 
+    const containerRef = useRef<HTMLDivElement>(null);
+    const onClickToggleFold = useCallback(() => {
+        const {
+            style: { maxHeight },
+        } = containerRef.current as HTMLDivElement;
+
+        if (!maxHeight || maxHeight !== "0px") {
+            containerRef.current!.style.maxHeight = "0px";
+            // containerRef.current!.style.opacity = "0.2";
+        } else {
+            containerRef.current!.style.maxHeight = "4096px";
+            // containerRef.current!.style.opacity = "1";
+        }
+    }, [containerRef]);
+
     // press hex/rgb button
     const onClickCopy = useCallback((e: MouseEvent<HTMLButtonElement>) => {
         const {
@@ -86,18 +101,16 @@ const Search = () => {
             navigator.clipboard.writeText(code as string);
         }
 
-        // e.currentTarget.innerText = "Copied!"; // No Manipulate directly
-
-        // display 'copied!' message
+        // display 'Copied!' message
+        // e.currentTarget.innerText = "Copied!"; // Do not Manipulate directly
         setState((prev) => ({
             ...prev,
             [item as string]: "Copied!",
         }));
 
+        // return to original state
         setTimeout(() => {
-            // (e.target as HTMLButtonElement).innerText = innerText; // No Manipulate directly
-
-            // return to original state
+            // (e.target as HTMLButtonElement).innerText = innerText; // Do not Manipulate directly
             setState((prev) => ({
                 ...prev,
                 [item as string]: convertColorType(
@@ -108,15 +121,19 @@ const Search = () => {
         }, 1500);
     }, []);
 
-    // press poke!
+    // poke the color
     const onClickPoke = useCallback((e: MouseEvent<HTMLButtonElement>) => {
         const {
             dataset: { code, item },
         } = e.currentTarget;
 
+        // behavior after 'Copied!' message is displayed
+        if (code === "Copied!") return;
+
         pokeColor(`${item}`, convertColorType(`${code}`, "HEX"));
     }, []);
 
+    // delete poked color
     const onClickClear = useCallback((e: MouseEvent<HTMLButtonElement>) => {
         const {
             dataset: { item },
@@ -170,8 +187,17 @@ const Search = () => {
                 </div>
             </header>
 
-            <Container>
-                {Object.keys(poked ?? {})?.map((item, index) => (
+            <div className="px-40 pt-4 space-x-4">
+                <Button
+                    onClick={onClickToggleFold}
+                    className="px-2 py-2 font-medium text-BK text-opacity-100"
+                >
+                    Your Palette 🎨
+                </Button>
+            </div>
+
+            <Container ref={containerRef} className="overflow-hidden">
+                {Object.keys(poked)?.map((item, index) => (
                     <Card
                         size={"first"}
                         key={`item_${index}`}
@@ -179,51 +205,40 @@ const Search = () => {
                             backgroundColor: `${poked[item]}`,
                         }}
                         className={cls(
-                            "relative transition duration-500 ease-in-out",
-                            data?.payload ? "" : "animate-pulse opacity-10"
+                            "relative transition duration-500 ease-in-out max-h-36"
                         )}
                     >
-                        {data?.payload ? (
-                            <>
-                                <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
-                                    <span className="text-center">{item}</span>
-                                    <span className="text-center">
-                                        {poked[item]}
-                                    </span>
-                                </div>
-                                <Button
-                                    data-item={item}
-                                    data-code={poked[item]}
-                                    onClick={onClickCopy}
-                                    className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
-                                >
-                                    HEX
-                                </Button>
-                                <Button
-                                    data-item={item}
-                                    data-code={convertColorType(
-                                        poked[item],
-                                        "RGB"
-                                    )}
-                                    onClick={onClickCopy}
-                                    className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
-                                >
-                                    RGB
-                                </Button>
-                                <Button
-                                    data-item={item}
-                                    data-code={poked[item]}
-                                    onClick={onClickClear}
-                                    className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
-                                >
-                                    ✖️
-                                </Button>
-                            </>
-                        ) : null}
+                        <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
+                            <span className="text-center">{item}</span>
+                            <span className="text-center">{poked[item]}</span>
+                        </div>
+                        <Button
+                            data-item={item}
+                            data-code={poked[item]}
+                            onClick={onClickCopy}
+                            className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
+                        >
+                            HEX
+                        </Button>
+                        <Button
+                            data-item={item}
+                            data-code={convertColorType(poked[item], "RGB")}
+                            onClick={onClickCopy}
+                            className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
+                        >
+                            RGB
+                        </Button>
+                        <Button
+                            data-item={item}
+                            data-code={poked[item]}
+                            onClick={onClickClear}
+                            className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
+                        >
+                            ✖️
+                        </Button>
                     </Card>
                 ))}
             </Container>
-
             <hr className="border-[0.1rem] rounded-full opacity-30 mt-4" />
 
             <Container>

@@ -1,14 +1,21 @@
 import { cls } from "@libs/functions";
-import type { FC, ReactNode } from "react";
+import { FC, ReactNode, Ref, forwardRef } from "react";
 import s from "./Container.module.css";
 
 interface Props {
     children?: ReactNode | any;
     className?: string;
+    ref?: Ref<HTMLDivElement>;
 }
 
-const Container: FC<Props> = ({ children, className = "" }) => {
-    return <div className={cls(s.root, className)}>{children}</div>;
-};
+const Container: FC<Props> = forwardRef(
+    ({ className = "", children }: Props, ref?: Ref<HTMLDivElement>) => {
+        return (
+            <div ref={ref} className={cls(s.root, className)}>
+                {children}
+            </div>
+        );
+    }
+);
 
 export default Container;
