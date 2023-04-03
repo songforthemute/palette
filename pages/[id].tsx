@@ -1,11 +1,14 @@
-import { Button, Card, Container, Form, Input } from "@components/Atoms";
-import { useFavor } from "@components/Contexts/favorContext";
-import Layout from "@components/layout/Layout";
-import { cardSizeConvertor, cls, convertColorType } from "@libs/functions";
-import useMutate from "@libs/useMutate";
-import { useRouter } from "next/router";
 import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { useFavor } from "@components/Contexts/favorContext";
+import { Button, Card, Container, SearchForm, Layout } from "../components";
+import {
+    cardSizeConvertor,
+    cls,
+    convertColorType,
+    initialResult,
+    useMutate,
+} from "../libs";
 
 interface FetchInterface {
     [key: string]: string | any;
@@ -16,43 +19,10 @@ interface FetchInterface {
 
 type colorType = "HEX" | "RGB";
 
-interface FormInterface {
-    id: string;
-}
-
 const Search = () => {
-    const [state, setState] = useState<{ [key: string]: string }>({
-        "0": "#FFF",
-        "1": "#FFF",
-        "2": "#FFF",
-        "3": "#FFF",
-        "4": "#FFF",
-        "5": "#FFF",
-        "6": "#FFF",
-        "7": "#FFF",
-        "8": "#FFF",
-        "9": "#FFF",
-        "10": "#FFF",
-        "11": "#FFF",
-        "12": "#FFF",
-        "13": "#FFF",
-        "14": "#FFF",
-        "15": "#FFF",
-        "16": "#FFF",
-        "17": "#FFF",
-        "18": "#FFF",
-        "19": "#FFF",
-        "20": "#FFF",
-        "21": "#FFF",
-        "22": "#FFF",
-        "23": "#FFF",
-        "24": "#FFF",
-        "25": "#FFF",
-        "26": "#FFF",
-        "27": "#FFF",
-        "28": "#FFF",
-        "29": "#FFF",
-    });
+    const [result, setResult] = useState<{ [key: string]: string }>(
+        initialResult
+    );
 
     const {
         query: { id },
@@ -63,55 +33,60 @@ const Search = () => {
         method: "POST",
     });
 
-    const { register, handleSubmit, setValue } = useForm<FormInterface>({
-        reValidateMode: "onBlur",
-    });
     const { push } = useRouter();
-
     const onSubmit = (data: any) => {
         push(`/${data.id}`);
     };
 
+    // The context that are of poked colors
     const { poked, clearColor, pokeColor } = useFavor();
 
+    // Poked color tab ref
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // Toggle fold/unfold poked color tab
     const onClickToggleFold = useCallback(() => {
         const {
             style: { maxHeight },
         } = containerRef.current as HTMLDivElement;
 
+        // Fold poked color tab
         if (!maxHeight || maxHeight !== "0px") {
             containerRef.current!.style.maxHeight = "0px";
             // containerRef.current!.style.opacity = "0.2";
-        } else {
-            containerRef.current!.style.maxHeight = "4096px";
+        }
+        // Unfold poked color tab
+        else {
+            containerRef.current!.style.maxHeight = "2048px"; // how much?
             // containerRef.current!.style.opacity = "1";
         }
     }, [containerRef]);
 
-    // press hex/rgb button
+    // Press hex/rgb button
     const onClickCopy = useCallback((e: MouseEvent<HTMLButtonElement>) => {
         const {
             dataset: { code, item },
             innerText,
         } = e.currentTarget;
 
-        // global state change: copy color code
+        if (code === "Copied!") return;
+
+        // Global state change: copy color code
         if (typeof navigator !== "undefined" && navigator.clipboard) {
             navigator.clipboard.writeText(code as string);
         }
 
-        // display 'Copied!' message
+        // Show 'Copied!' message
         // e.currentTarget.innerText = "Copied!"; // Do not Manipulate directly
-        setState((prev) => ({
+        setResult((prev) => ({
             ...prev,
             [item as string]: "Copied!",
         }));
 
-        // return to original state
+        // Return to original state
         setTimeout(() => {
             // (e.target as HTMLButtonElement).innerText = innerText; // Do not Manipulate directly
-            setState((prev) => ({
+            setResult((prev) => ({
                 ...prev,
                 [item as string]: convertColorType(
                     code as string,
@@ -142,10 +117,10 @@ const Search = () => {
         clearColor(`${item}`);
     }, []);
 
-    // initialize
+    // initialize for fetching
     useEffect(() => {
         if (id !== undefined) {
-            setValue("id", id as string);
+            // setValue("id", id as string);
             fetching(id);
         }
     }, [id]);
@@ -153,7 +128,7 @@ const Search = () => {
     // data mapping
     useEffect(() => {
         if (data && Object.keys(data).length) {
-            setState({
+            setResult({
                 ...data.payload,
             });
         }
@@ -170,20 +145,12 @@ const Search = () => {
                         Palette 🎨
                     </h1>
 
-                    <Form
-                        onSubmit={handleSubmit(onSubmit)}
-                        ariaLabel="form"
-                        ariaRoledescription="form"
+                    <SearchForm
+                        placeholder="Hi there :D"
                         className="w-full max-w-[50%]"
-                    >
-                        <Input
-                            required
-                            placeholder="Hi there"
-                            {...register("id", {
-                                required: "검색할 키워드를 입력해주세요.",
-                            })}
-                        />
-                    </Form>
+                        onSubmit={onSubmit}
+                        defaultValue={id as string}
+                    />
                 </div>
             </header>
 
@@ -242,12 +209,12 @@ const Search = () => {
             <hr className="border-[0.1rem] rounded-full opacity-30 mt-4" />
 
             <Container>
-                {Object.keys(state).map((item, index) => (
+                {Object.keys(result).map((item, index) => (
                     <Card
                         size={cardSizeConvertor(index)}
                         key={`item_${index}`}
                         style={{
-                            backgroundColor: `${state[item]}`,
+                            backgroundColor: `${result[item]}`,
                         }}
                         className={cls(
                             "relative transition duration-500 ease-in-out",
@@ -259,12 +226,12 @@ const Search = () => {
                                 <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
                                     <span className="text-center">{item}</span>
                                     <span className="text-center">
-                                        {state[item]}
+                                        {result[item]}
                                     </span>
                                 </div>
                                 <Button
                                     data-item={item}
-                                    data-code={state[item]}
+                                    data-code={result[item]}
                                     onClick={onClickCopy}
                                     className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
                                 >
@@ -273,7 +240,7 @@ const Search = () => {
                                 <Button
                                     data-item={item}
                                     data-code={convertColorType(
-                                        state[item],
+                                        result[item],
                                         "RGB"
                                     )}
                                     onClick={onClickCopy}
@@ -283,7 +250,7 @@ const Search = () => {
                                 </Button>
                                 <Button
                                     data-item={item}
-                                    data-code={state[item]}
+                                    data-code={result[item]}
                                     onClick={onClickPoke}
                                     className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
                                 >

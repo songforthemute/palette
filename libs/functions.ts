@@ -60,3 +60,40 @@ export const cardSizeConvertor = (
             return "third";
     }
 };
+
+export const initialResult = () => {
+    const initObj = {
+        "0": "#FFF",
+        "1": "#FFF",
+        "2": "#FFF",
+        "3": "#FFF",
+        "4": "#FFF",
+        "5": "#FFF",
+        "6": "#FFF",
+        "7": "#FFF",
+        "8": "#FFF",
+        "9": "#FFF",
+        "10": "#FFF",
+        "11": "#FFF",
+        "12": "#FFF",
+        "13": "#FFF",
+        "14": "#FFF",
+        "15": "#FFF",
+        "16": "#FFF",
+        "17": "#FFF",
+        "18": "#FFF",
+        "19": "#FFF",
+        "20": "#FFF",
+        "21": "#FFF",
+        "22": "#FFF",
+        "23": "#FFF",
+        "24": "#FFF",
+        "25": "#FFF",
+        "26": "#FFF",
+        "27": "#FFF",
+        "28": "#FFF",
+        "29": "#FFF",
+    };
+
+    return { ...initObj };
+};

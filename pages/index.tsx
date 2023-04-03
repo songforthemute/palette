@@ -1,18 +1,9 @@
-import { Card, Container, Form, Input } from "@components/Atoms";
-import Layout from "@components/layout";
-import { cls } from "@libs/functions";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-
-interface FormInterface {
-    id: string;
-}
+import { useRouter } from "next/router";
+import { Layout, Card, Container, SearchForm } from "../components";
+import { cls } from "../libs";
 
 const Home = () => {
-    const { register, handleSubmit } = useForm<FormInterface>({
-        reValidateMode: "onBlur",
-    });
     const { push } = useRouter();
     const onSubmit = (data: any) => {
         setSearching(true);
@@ -63,20 +54,11 @@ const Home = () => {
                     </h5>
                 </div>
 
-                <Form
-                    onSubmit={handleSubmit(onSubmit)}
-                    ariaLabel="form"
-                    ariaRoledescription="form"
+                <SearchForm
+                    placeholder="Hi there :D"
                     className="w-4/5"
-                >
-                    <Input
-                        required
-                        placeholder="Hi there"
-                        {...register("id", {
-                            required: "검색할 키워드를 입력해주세요.",
-                        })}
-                    />
-                </Form>
+                    onSubmit={onSubmit}
+                />
             </div>
 
             <Container
