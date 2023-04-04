@@ -10,32 +10,35 @@ import {
     useMutate,
 } from "../libs";
 
+import store from "@components/Contexts/sessionStorage";
+
 interface FetchInterface {
     [key: string]: string | any;
     payload: {
         [key: string]: string; // [relatedItem]: hex color code
     };
+    error?: string;
 }
 
 type colorType = "HEX" | "RGB";
 
 const Search = () => {
     const [result, setResult] = useState<{ [key: string]: string }>(
-        initialResult
+        initialResult()
     );
 
     const {
         query: { id },
     } = useRouter();
 
-    const [fetching, { data }] = useMutate<FetchInterface>({
-        url: "/api/test",
+    const [fetching, { data, loading }] = useMutate<FetchInterface>({
+        url: `/api/${id as string}`,
         method: "POST",
     });
 
     const { push } = useRouter();
-    const onSubmit = (data: any) => {
-        push(`/${data.id}`);
+    const onSubmit = ({ id }: { id: string }) => {
+        push(`/${id}`);
     };
 
     // The context that are of poked colors
@@ -45,22 +48,25 @@ const Search = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Toggle fold/unfold poked color tab
-    const onClickToggleFold = useCallback(() => {
-        const {
-            style: { maxHeight },
-        } = containerRef.current as HTMLDivElement;
+    const onClickToggleFold = useCallback(
+        (e: MouseEvent<HTMLButtonElement>) => {
+            const {
+                style: { maxHeight },
+            } = containerRef.current as HTMLDivElement;
 
-        // Fold poked color tab
-        if (!maxHeight || maxHeight !== "0px") {
-            containerRef.current!.style.maxHeight = "0px";
-            // containerRef.current!.style.opacity = "0.2";
-        }
-        // Unfold poked color tab
-        else {
-            containerRef.current!.style.maxHeight = "2048px"; // how much?
-            // containerRef.current!.style.opacity = "1";
-        }
-    }, [containerRef]);
+            // Fold poked color tab
+            if (!maxHeight || maxHeight !== "0px") {
+                containerRef.current!.style.maxHeight = "0px";
+                e.currentTarget.innerText = "Open Palette";
+            }
+            // Unfold poked color tab
+            else {
+                containerRef.current!.style.maxHeight = "1024px"; // how much?
+                e.currentTarget.innerText = "Close Palette";
+            }
+        },
+        [containerRef]
+    );
 
     // Press hex/rgb button
     const onClickCopy = useCallback((e: MouseEvent<HTMLButtonElement>) => {
@@ -119,20 +125,26 @@ const Search = () => {
 
     // initialize for fetching
     useEffect(() => {
+        setResult(initialResult());
+
+        // check for previous fetching result
         if (id !== undefined) {
-            // setValue("id", id as string);
-            fetching(id);
+            const query = store.get(id as string);
+
+            if (query) setResult({ ...query });
+            else fetching(id);
         }
-    }, [id]);
+    }, [id, setResult]);
 
     // data mapping
     useEffect(() => {
-        if (data && Object.keys(data).length) {
+        if (data?.payload && !loading) {
             setResult({
                 ...data.payload,
             });
+            store.set(id as string, data.payload);
         }
-    }, [data]);
+    }, [data, setResult]);
 
     return (
         <Layout
@@ -206,60 +218,65 @@ const Search = () => {
                     </Card>
                 ))}
             </Container>
+
             <hr className="border-[0.1rem] rounded-full opacity-30 mt-4" />
 
             <Container>
-                {Object.keys(result).map((item, index) => (
-                    <Card
-                        size={cardSizeConvertor(index)}
-                        key={`item_${index}`}
-                        style={{
-                            backgroundColor: `${result[item]}`,
-                        }}
-                        className={cls(
-                            "relative transition duration-500 ease-in-out",
-                            data?.payload ? "" : "animate-pulse opacity-10"
-                        )}
-                    >
-                        {data?.payload ? (
-                            <>
-                                <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
-                                    <span className="text-center">{item}</span>
-                                    <span className="text-center">
-                                        {result[item]}
-                                    </span>
-                                </div>
-                                <Button
-                                    data-item={item}
-                                    data-code={result[item]}
-                                    onClick={onClickCopy}
-                                    className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
-                                >
-                                    HEX
-                                </Button>
-                                <Button
-                                    data-item={item}
-                                    data-code={convertColorType(
-                                        result[item],
-                                        "RGB"
-                                    )}
-                                    onClick={onClickCopy}
-                                    className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
-                                >
-                                    RGB
-                                </Button>
-                                <Button
-                                    data-item={item}
-                                    data-code={result[item]}
-                                    onClick={onClickPoke}
-                                    className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
-                                >
-                                    ➕
-                                </Button>
-                            </>
-                        ) : null}
-                    </Card>
-                ))}
+                {!data!.error
+                    ? Object.keys(result).map((item, index) => (
+                          <Card
+                              size={cardSizeConvertor(index)}
+                              key={`item_${index}`}
+                              style={{
+                                  backgroundColor: `${result[item]}`,
+                              }}
+                              className={cls(
+                                  "relative transition duration-500 ease-in-out",
+                                  loading ? "animate-pulse opacity-10" : ""
+                              )}
+                          >
+                              {loading ? null : (
+                                  <>
+                                      <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
+                                          <span className="text-center">
+                                              {item}
+                                          </span>
+                                          <span className="text-center">
+                                              {result[item]}
+                                          </span>
+                                      </div>
+                                      <Button
+                                          data-item={item}
+                                          data-code={result[item]}
+                                          onClick={onClickCopy}
+                                          className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
+                                      >
+                                          HEX
+                                      </Button>
+                                      <Button
+                                          data-item={item}
+                                          data-code={convertColorType(
+                                              result[item],
+                                              "RGB"
+                                          )}
+                                          onClick={onClickCopy}
+                                          className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
+                                      >
+                                          RGB
+                                      </Button>
+                                      <Button
+                                          data-item={item}
+                                          data-code={result[item]}
+                                          onClick={onClickPoke}
+                                          className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
+                                      >
+                                          ➕
+                                      </Button>
+                                  </>
+                              )}
+                          </Card>
+                      ))
+                    : null}
             </Container>
         </Layout>
     );

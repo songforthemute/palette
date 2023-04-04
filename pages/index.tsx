@@ -9,7 +9,7 @@ const Home = () => {
         setSearching(true);
         setTimeout(async () => {
             await push(`/${data.id}`);
-        }, 1250);
+        }, 1100);
     };
 
     const [searching, setSearching] = useState(false);
@@ -41,7 +41,7 @@ const Home = () => {
         >
             <div
                 className={cls(
-                    `my-10 w-full mx-auto flex flex-col justify-center items-center transition duration-1000 ease-in`,
+                    `my-10 w-full mx-auto flex flex-col justify-center items-center transition duration-[750ms] ease-in`,
                     searching ? "-translate-y-96" : ""
                 )}
             >
@@ -50,12 +50,12 @@ const Home = () => {
                         Palette
                     </h1>
                     <h5 className="mt-4 mb-12 text-WH px-4">
-                        What color do you have in mind? 🤔
+                        Type something, get colors 🎨
                     </h5>
                 </div>
 
                 <SearchForm
-                    placeholder="Hi there :D"
+                    placeholder="What do you have in mind? 🤔"
                     className="w-4/5"
                     onSubmit={onSubmit}
                 />

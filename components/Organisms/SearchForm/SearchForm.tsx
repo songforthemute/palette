@@ -39,6 +39,10 @@ const SearchForm = ({
                 placeholder={placeholder}
                 {...register("id", {
                     required: "검색할 키워드를 입력해주세요.",
+                    minLength: {
+                        value: 2,
+                        message: "2자 이상으로 입력해주세요.",
+                    },
                 })}
             />
         </Form>
