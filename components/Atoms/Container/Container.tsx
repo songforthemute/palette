@@ -18,4 +18,6 @@ const Container: FC<Props> = forwardRef(
     }
 );
 
+Container.displayName = "Container";
+
 export default Container;

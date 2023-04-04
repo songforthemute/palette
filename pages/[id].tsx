@@ -103,25 +103,31 @@ const Search = () => {
     }, []);
 
     // poke the color
-    const onClickPoke = useCallback((e: MouseEvent<HTMLButtonElement>) => {
-        const {
-            dataset: { code, item },
-        } = e.currentTarget;
+    const onClickPoke = useCallback(
+        (e: MouseEvent<HTMLButtonElement>) => {
+            const {
+                dataset: { code, item },
+            } = e.currentTarget;
 
-        // behavior after 'Copied!' message is displayed
-        if (code === "Copied!") return;
+            // behavior after 'Copied!' message is displayed
+            if (code === "Copied!") return;
 
-        pokeColor(`${item}`, convertColorType(`${code}`, "HEX"));
-    }, []);
+            pokeColor(`${item}`, convertColorType(`${code}`, "HEX"));
+        },
+        [pokeColor]
+    );
 
     // delete poked color
-    const onClickClear = useCallback((e: MouseEvent<HTMLButtonElement>) => {
-        const {
-            dataset: { item },
-        } = e.currentTarget;
+    const onClickClear = useCallback(
+        (e: MouseEvent<HTMLButtonElement>) => {
+            const {
+                dataset: { item },
+            } = e.currentTarget;
 
-        clearColor(`${item}`);
-    }, []);
+            clearColor(`${item}`);
+        },
+        [clearColor]
+    );
 
     // initialize for fetching
     useEffect(() => {

@@ -25,7 +25,7 @@ const SearchForm = ({
 
     useEffect(() => {
         if (defaultValue) setValue("id", defaultValue);
-    }, [defaultValue]);
+    }, [defaultValue, setValue]);
 
     return (
         <Form
