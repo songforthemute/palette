@@ -47,13 +47,13 @@
 
 -   웹 접근성을 고려하여, `aria-label`, `aria-roleDescription` 등의 WAI-ARIA 속성들을 이용했습니다. _(In consideration of web accessibility, WAI-ARIA attributes such as `aria-label`, `aria-roleDescription` are used.)_
 
--   검색했던 키워드는 브라우저의 `Session Storage API`를 이용해 세션 스토리지에 기록하여, 반복적인 API 호출을 줄이고 이전의 응답을 빠르게 제공하였습니다. _(Instead of wasting unnecessary money due to repeated API calls, it provides a quick response using data cached by `SWR` when revisiting pages visited within a certain period of time. When it comes to data that interacts with users and changes, we responded by mutating the cache.)_
+-   검색했던 키워드는 브라우저의 `Session Storage API`를 이용해 세션 스토리지에 기록하여, 반복적인 API 호출을 줄이고 이전의 응답을 빠르게 제공하였습니다. _(Keywords searched were recorded in session storage using the browser's `Session Storage API`, reducing repetitive API calls and providing previous responses quickly.)_
 
--   모달과 사이드바 컴포넌트의 상태는 `React Context API`를 이용하여 관리했습니다. _(The state of modal and sidebar components was managed using `React Context API`.)_
+-   Poke한 컬러들의 팔레트는 `React Context API`를 이용하여 관리했습니다. _(The palette of the poked colors was managed using `React Context API`.)_
 
--   스타일링은 `Tailwind CSS`를 `CSS Module` 방식으로 적용시켰습니다. 폼 컴포넌트는 `React-hook-form`을 이용해 개발하였습니다. _(For styling, `Tailwind CSS` is applied in the `CSS Module` The select component was developed using `Radix-ui/react-select` and the form component using `React-hook-form`.)_
+-   스타일링은 `Tailwind CSS`를 `CSS Module` 방식으로 적용시켰습니다. 폼 컴포넌트는 `React-hook-form`을 이용해 개발하였습니다. _(For styling, `Tailwind CSS` is applied in the `CSS Module`. The form component using `React-hook-form`.)_
 
--   프로젝트의 배포는 `Vercel` 플랫폼을 이용하여 진행하였습니다. _(The image was loaded using `Cloudflare Images` on CDN, and the project was distributed using the `Vercel` platform.)_
+-   프로젝트의 배포는 `Vercel` 플랫폼을 이용하여 진행하였습니다. _(The project was deployed using the `Vercel` platform.)_
 
 ---
 

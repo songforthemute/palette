@@ -172,10 +172,10 @@ const Search = () => {
                 </div>
             </header>
 
-            <div className="px-40 pt-4 space-x-4">
+            <div className="md:mx-[15%] px-2 mt-4">
                 <Button
                     onClick={onClickToggleFold}
-                    className="px-2 py-2 font-medium text-BK text-opacity-100"
+                    className="py-1 md:py-2 px-2 font-medium text-BK text-opacity-100"
                 >
                     Your Palette 🎨
                 </Button>
