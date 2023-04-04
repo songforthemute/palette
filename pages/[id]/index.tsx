@@ -1,14 +1,14 @@
 import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useFavor } from "@components/Contexts/favorContext";
-import { Button, Card, Container, SearchForm, Layout } from "../components";
+import { Button, Card, Container, SearchForm, Layout } from "components";
 import {
     cardSizeConvertor,
     cls,
     convertColorType,
     initialResult,
     useMutate,
-} from "../libs";
+} from "libs";
 
 import store from "@components/Contexts/sessionStorage";
 
@@ -228,61 +228,57 @@ const Search = () => {
             <hr className="border-[0.1rem] rounded-full opacity-30 mt-4" />
 
             <Container>
-                {!data!.error
-                    ? Object.keys(result).map((item, index) => (
-                          <Card
-                              size={cardSizeConvertor(index)}
-                              key={`item_${index}`}
-                              style={{
-                                  backgroundColor: `${result[item]}`,
-                              }}
-                              className={cls(
-                                  "relative transition duration-500 ease-in-out",
-                                  loading ? "animate-pulse opacity-10" : ""
-                              )}
-                          >
-                              {loading ? null : (
-                                  <>
-                                      <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
-                                          <span className="text-center">
-                                              {item}
-                                          </span>
-                                          <span className="text-center">
-                                              {result[item]}
-                                          </span>
-                                      </div>
-                                      <Button
-                                          data-item={item}
-                                          data-code={result[item]}
-                                          onClick={onClickCopy}
-                                          className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
-                                      >
-                                          HEX
-                                      </Button>
-                                      <Button
-                                          data-item={item}
-                                          data-code={convertColorType(
-                                              result[item],
-                                              "RGB"
-                                          )}
-                                          onClick={onClickCopy}
-                                          className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
-                                      >
-                                          RGB
-                                      </Button>
-                                      <Button
-                                          data-item={item}
-                                          data-code={result[item]}
-                                          onClick={onClickPoke}
-                                          className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
-                                      >
-                                          ➕
-                                      </Button>
-                                  </>
-                              )}
-                          </Card>
-                      ))
-                    : null}
+                {Object.keys(result).map((item, index) => (
+                    <Card
+                        size={cardSizeConvertor(index)}
+                        key={`item_${index}`}
+                        style={{
+                            backgroundColor: `${result[item]}`,
+                        }}
+                        className={cls(
+                            "relative transition duration-500 ease-in-out",
+                            loading ? "animate-pulse opacity-10" : ""
+                        )}
+                    >
+                        {loading ? null : (
+                            <>
+                                <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
+                                    <span className="text-center">{item}</span>
+                                    <span className="text-center">
+                                        {result[item]}
+                                    </span>
+                                </div>
+                                <Button
+                                    data-item={item}
+                                    data-code={result[item]}
+                                    onClick={onClickCopy}
+                                    className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
+                                >
+                                    HEX
+                                </Button>
+                                <Button
+                                    data-item={item}
+                                    data-code={convertColorType(
+                                        result[item],
+                                        "RGB"
+                                    )}
+                                    onClick={onClickCopy}
+                                    className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
+                                >
+                                    RGB
+                                </Button>
+                                <Button
+                                    data-item={item}
+                                    data-code={result[item]}
+                                    onClick={onClickPoke}
+                                    className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
+                                >
+                                    ➕
+                                </Button>
+                            </>
+                        )}
+                    </Card>
+                ))}
             </Container>
         </Layout>
     );
