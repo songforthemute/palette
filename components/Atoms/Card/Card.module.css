@@ -1,6 +1,6 @@
 .root {
     @apply rounded-xl m-2 p-2 border-none relative justify-center items-center
-    shadow-md transition duration-300 ease-out;
+    shadow-md transition duration-300 ease-out break-words text-center;
 }
 
 .root:hover {

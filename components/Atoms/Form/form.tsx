@@ -16,6 +16,7 @@ const Form: FC<Props> = ({
     children,
     ariaRoledescription,
     onSubmit,
+    ...rest
 }) => {
     return (
         <form
@@ -24,6 +25,7 @@ const Form: FC<Props> = ({
             aria-label={ariaLabel}
             aria-roledescription={ariaRoledescription}
             onSubmit={onSubmit}
+            {...rest}
         >
             {children}
         </form>

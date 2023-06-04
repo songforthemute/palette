@@ -1,0 +1,16 @@
+.root {
+    @apply py-2.5 px-2 m-1 rounded-full transition duration-300 border-none
+    ease-in-out shadow-md text-sm;
+}
+
+.root:hover {
+    @apply opacity-high cursor-pointer;
+}
+
+.root:focus {
+    @apply outline-none ring-2 ring-offset-transparent ring-fuchsia-500;
+}
+
+.option {
+    @apply py-2.5 px-2 text-sm;
+}

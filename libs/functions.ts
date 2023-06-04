@@ -1,8 +1,27 @@
-/**
- * @param {string}
- */
-export const copy = () => {
-    //
+export const getRandomHexColorCode = () => {
+    const rgb = Array.from(Array(3), () => Math.floor(Math.random() * 255));
+
+    const hexCode = rgb.map((value) => {
+        const code = value.toString(16);
+        return code.length === 2 ? code : "0" + code;
+    });
+
+    return `#${hexCode.join("")}`;
+};
+
+export const getRandomCardSize = (): "first" | "second" | "third" => {
+    const num = Math.floor(Math.random() * 3) + 1;
+
+    switch (num) {
+        case 1:
+            return "first";
+        case 2:
+            return "second";
+        case 3:
+            return "third";
+        default:
+            return "first";
+    }
 };
 
 /**
@@ -63,36 +82,36 @@ export const cardSizeConvertor = (
 
 export const initialResult = () => {
     const initObj = {
-        "0": "#FFF",
-        "1": "#FFF",
-        "2": "#FFF",
-        "3": "#FFF",
-        "4": "#FFF",
-        "5": "#FFF",
-        "6": "#FFF",
-        "7": "#FFF",
-        "8": "#FFF",
-        "9": "#FFF",
-        "10": "#FFF",
-        "11": "#FFF",
-        "12": "#FFF",
-        "13": "#FFF",
-        "14": "#FFF",
-        "15": "#FFF",
-        "16": "#FFF",
-        "17": "#FFF",
-        "18": "#FFF",
-        "19": "#FFF",
-        "20": "#FFF",
-        "21": "#FFF",
-        "22": "#FFF",
-        "23": "#FFF",
-        "24": "#FFF",
-        "25": "#FFF",
-        "26": "#FFF",
-        "27": "#FFF",
-        "28": "#FFF",
-        "29": "#FFF",
+        "0": "#FFFFFF30",
+        "1": "#FFFFFF30",
+        "2": "#FFFFFF30",
+        "3": "#FFFFFF30",
+        "4": "#FFFFFF30",
+        "5": "#FFFFFF30",
+        "6": "#FFFFFF30",
+        "7": "#FFFFFF30",
+        "8": "#FFFFFF30",
+        "9": "#FFFFFF30",
+        "10": "#FFFFFF30",
+        "11": "#FFFFFF30",
+        "12": "#FFFFFF30",
+        "13": "#FFFFFF30",
+        "14": "#FFFFFF30",
+        "15": "#FFFFFF30",
+        "16": "#FFFFFF30",
+        "17": "#FFFFFF30",
+        "18": "#FFFFFF30",
+        "19": "#FFFFFF30",
+        "20": "#FFFFFF30",
+        "21": "#FFFFFF30",
+        "22": "#FFFFFF30",
+        "23": "#FFFFFF30",
+        "24": "#FFFFFF30",
+        "25": "#FFFFFF30",
+        "26": "#FFFFFF30",
+        "27": "#FFFFFF30",
+        "28": "#FFFFFF30",
+        "29": "#FFFFFF30",
     };
 
     return { ...initObj };

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Layout, Card, Container, SearchForm } from "../components";
+import { Layout, Container, SearchForm, ExampleCards } from "../components";
 import { cls } from "../libs";
 
 const Home = () => {
     const { push } = useRouter();
-    const onSubmit = (data: any) => {
+    const onSubmit = ({ id, counts }: { id: string; counts: string }) => {
         setSearching(true);
         setTimeout(async () => {
-            await push(`/${data.id}`);
+            await push(`/${id}/?counts=${counts}`);
         }, 1100);
     };
 
@@ -50,7 +50,7 @@ const Home = () => {
                         Palette
                     </h1>
                     <h5 className="mt-4 mb-12 text-WH px-4">
-                        Type something, get colors 🎨
+                        What you imagined, its color 🎨
                     </h5>
                 </div>
 
@@ -67,27 +67,7 @@ const Home = () => {
                     searching ? "translate-y-3/4" : ""
                 )}
             >
-                <Card className={cls(`bg-[#000]`)} size={"first"}></Card>
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"}></Card>
-                <Card className={cls(`bg-[#AABBCC]`)} size={"third"}></Card>
-                <Card className={cls(`bg-[#99FFAA]`)} size={"second"}></Card>
-                <Card className={cls(`bg-[#FF99AA]`)} size={"first"}></Card>
-                <Card className={cls(`bg-[#AA99FF]`)} size={"third"}></Card>
-                <Card className={cls(`bg-[#9A9F99]`)} size={"first"}></Card>
-                <Card className={cls(`bg-[#FAA99F]`)} size={"second"}></Card>
-                <Card className={cls(`bg-[#AABBCC]`)} size={"third"}></Card>
-                <Card className={cls(`bg-[#000]`)} size={"first"}></Card>
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"}></Card>
-                <Card className={cls(`bg-[#AABBCC]`)} size={"third"}></Card>
-                <Card className={cls(`bg-[#FF99AA]`)} size={"first"}></Card>
-                <Card className={cls(`bg-[#99FFAA]`)} size={"second"}></Card>
-                <Card className={cls(`bg-[#AA99FF]`)} size={"third"}></Card>
-                <Card className={cls(`bg-[#000]`)} size={"first"}></Card>
-                <Card className={cls(`bg-[#FFFFFF]`)} size={"second"}></Card>
-                <Card className={cls(`bg-[#FF99AA]`)} size={"first"}></Card>
-                <Card className={cls(`bg-[#99FFAA]`)} size={"second"}></Card>
-                <Card className={cls(`bg-[#AA99FF]`)} size={"third"}></Card>
-                <Card className={cls(`bg-[#AABBCC]`)} size={"third"}></Card>
+                <ExampleCards />
             </Container>
         </Layout>
     );

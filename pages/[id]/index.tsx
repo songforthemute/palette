@@ -28,17 +28,17 @@ const Search = () => {
     );
 
     const {
-        query: { id },
+        query: { id, counts },
     } = useRouter();
 
     const [fetching, { data, loading }] = useMutate<FetchInterface>({
-        url: `/api/${id as string}`,
+        url: `/api/${id as string}?counts=${counts}`,
         method: "POST",
     });
 
     const { push } = useRouter();
-    const onSubmit = ({ id }: { id: string }) => {
-        push(`/${id}`);
+    const onSubmit = ({ id, counts }: { id: string; counts: string }) => {
+        push(`/${id}?counts=${counts}`);
     };
 
     // The context that are of poked colors
@@ -157,19 +157,17 @@ const Search = () => {
             title={(id as string) ?? "Search"}
             metaDescription={`Colors and items related on ${id}.`}
         >
-            <header>
-                <div className="flex w-full justify-center items-center">
-                    <h1 className="text-WH text-center drop-shadow-md text-3xl md:text-4xl mx-4">
-                        Palette 🎨
-                    </h1>
+            <header className="flex flex-col md:flex-row w-full justify-start md:justify-center items-start md:items-center  mx-auto">
+                <h1 className="text-WH text-center drop-shadow-md text-2xl md:text-4xl my-2.5 mx-4">
+                    Palette 🎨
+                </h1>
 
-                    <SearchForm
-                        placeholder="Hi there :D"
-                        className="w-full max-w-[50%]"
-                        onSubmit={onSubmit}
-                        defaultValue={id as string}
-                    />
-                </div>
+                <SearchForm
+                    placeholder="Hi there :D"
+                    className="w-full md:max-w-[50%]"
+                    onSubmit={onSubmit}
+                    defaultValue={id as string}
+                />
             </header>
 
             <div className="md:mx-[15%] px-2 mt-4">
@@ -182,24 +180,24 @@ const Search = () => {
             </div>
 
             <Container ref={containerRef} className="overflow-hidden">
-                {Object.keys(poked)?.map((item, index) => (
+                {Object.entries(poked)?.map(([item, code], index) => (
                     <Card
                         size={"first"}
                         key={`item_${index}`}
                         style={{
-                            backgroundColor: `${poked[item]}`,
+                            backgroundColor: `${code}`,
                         }}
                         className={cls(
                             "relative transition duration-500 ease-in-out max-h-36"
                         )}
                     >
-                        <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
-                            <span className="text-center">{item}</span>
-                            <span className="text-center">{poked[item]}</span>
+                        <div className="absolute flex flex-col font-medium opacity-50 text-center top-[30%] inset-x-0 text-sm space-y-1">
+                            <span className="mx-2">{item}</span>
+                            <span>{code}</span>
                         </div>
                         <Button
                             data-item={item}
-                            data-code={poked[item]}
+                            data-code={code}
                             onClick={onClickCopy}
                             className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
                         >
@@ -207,17 +205,17 @@ const Search = () => {
                         </Button>
                         <Button
                             data-item={item}
-                            data-code={convertColorType(poked[item], "RGB")}
+                            data-code={convertColorType(code, "RGB")}
                             onClick={onClickCopy}
-                            className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
+                            className="absolute text-center bottom-3 left-16 p-2.5 text-xs leading-[0.25rem]"
                         >
                             RGB
                         </Button>
                         <Button
                             data-item={item}
-                            data-code={poked[item]}
+                            data-code={code}
                             onClick={onClickClear}
-                            className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
+                            className="absolute text-center top-3 right-3 aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
                         >
                             ✖️
                         </Button>
@@ -228,12 +226,12 @@ const Search = () => {
             <hr className="border-[0.1rem] rounded-full opacity-30 mt-4" />
 
             <Container>
-                {Object.keys(result).map((item, index) => (
+                {Object.entries(result).map(([item, code], index) => (
                     <Card
                         size={cardSizeConvertor(index)}
                         key={`item_${index}`}
                         style={{
-                            backgroundColor: `${result[item]}`,
+                            backgroundColor: `${code}`,
                         }}
                         className={cls(
                             "relative transition duration-500 ease-in-out",
@@ -242,15 +240,15 @@ const Search = () => {
                     >
                         {loading ? null : (
                             <>
-                                <div className="absolute flex flex-col font-medium opacity-50 text-center top-1/3 bottom-0 left-0 right-0">
-                                    <span className="text-center">{item}</span>
-                                    <span className="text-center">
-                                        {result[item]}
+                                <div className="absolute flex flex-col font-medium opacity-50 text-center top-[30%] space-y-1 inset-x-0 text-sm">
+                                    <span className="text-center mx-2">
+                                        {item}
                                     </span>
+                                    <span className="text-center">{code}</span>
                                 </div>
                                 <Button
                                     data-item={item}
-                                    data-code={result[item]}
+                                    data-code={code}
                                     onClick={onClickCopy}
                                     className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
                                 >
@@ -258,20 +256,17 @@ const Search = () => {
                                 </Button>
                                 <Button
                                     data-item={item}
-                                    data-code={convertColorType(
-                                        result[item],
-                                        "RGB"
-                                    )}
+                                    data-code={convertColorType(code, "RGB")}
                                     onClick={onClickCopy}
-                                    className="absolute text-center bottom-3 left-[4rem] p-2.5 text-xs leading-[0.25rem]"
+                                    className="absolute text-center bottom-3 left-16 p-2.5 text-xs leading-[0.25rem]"
                                 >
                                     RGB
                                 </Button>
                                 <Button
                                     data-item={item}
-                                    data-code={result[item]}
+                                    data-code={code}
                                     onClick={onClickPoke}
-                                    className="absolute text-center top-3 right-[0.75rem] aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
+                                    className="absolute text-center flex justify-center items-center top-3 right-3 aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
                                 >
                                     ➕
                                 </Button>

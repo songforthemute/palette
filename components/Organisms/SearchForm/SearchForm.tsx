@@ -1,9 +1,10 @@
-import { Form, Input } from "@components/Atoms";
+import { Form, Input, Select } from "@components/Atoms";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 interface FormInterface {
     id: string;
+    counts: string | any;
 }
 
 interface Props {
@@ -19,9 +20,10 @@ const SearchForm = ({
     placeholder = "Hi there!",
     defaultValue,
 }: Props) => {
-    const { register, handleSubmit, setValue } = useForm<FormInterface>({
-        reValidateMode: "onBlur",
-    });
+    const { register, handleSubmit, setValue, control } =
+        useForm<FormInterface>({
+            reValidateMode: "onBlur",
+        });
 
     useEffect(() => {
         if (defaultValue) setValue("id", defaultValue);
@@ -30,7 +32,7 @@ const SearchForm = ({
     return (
         <Form
             onSubmit={handleSubmit(onSubmit)}
-            ariaLabel="form"
+            ariaLabel="searching color form"
             ariaRoledescription="Search color form by keyword"
             className={className}
         >
@@ -43,7 +45,22 @@ const SearchForm = ({
                         value: 2,
                         message: "2자 이상으로 입력해주세요.",
                     },
+                    maxLength: {
+                        value: 32,
+                        message: "32자 이내로 입력해주세요.",
+                    },
                 })}
+            />
+            <Controller
+                render={({ field }) => (
+                    <Select
+                        {...field}
+                        options={["10", "15", "20", "25", "30"]}
+                    />
+                )}
+                name="counts"
+                defaultValue={"20"}
+                control={control}
             />
         </Form>
     );

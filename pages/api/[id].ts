@@ -7,8 +7,7 @@ export default async function handler(
     res: NextApiResponse<any>
 ) {
     const {
-        // body,
-        query: { id },
+        query: { id, counts },
         method,
     } = req;
 
@@ -17,12 +16,14 @@ export default async function handler(
         return;
     }
 
+    const max_tokens = 32 * Number(counts || 20);
+
     const {
         data: { choices },
     } = await __openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Please recommend 20 words related to '${id}' and HEX code related to each word. Like '{ "word": "#FFFFFF", ... }' shape or JSON type.`,
-        max_tokens: 640,
+        prompt: `Please recommend ${counts} words related to '${id}' and HEX code related to each word. It's '{ "word": "#FFFFFF", ... }' shape of the JSON type.`,
+        max_tokens,
     });
 
     const { text } = choices[0];
@@ -30,14 +31,13 @@ export default async function handler(
 
     try {
         const payload = JSON.parse(text ?? "{}");
-
         // console.log(payload);
 
         res.status(200).json({
             payload,
         });
     } catch (e) {
-        res.status(200).json({
+        res.status(404).json({
             error: "Please check your settings or network status.",
         });
     }
