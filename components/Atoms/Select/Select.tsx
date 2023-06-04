@@ -15,7 +15,7 @@ const Select: FC<Props> = forwardRef(({ options, ...props }, ref) => {
         >
             {options.map((v) => (
                 <option className={s.option} value={v} key={v} role="option">
-                    {v} things
+                    {v}
                 </option>
             ))}
         </select>

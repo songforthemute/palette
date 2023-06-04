@@ -6,6 +6,8 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
+    console.time("ch");
+
     const {
         query: { id, counts },
         method,
@@ -16,22 +18,24 @@ export default async function handler(
         return;
     }
 
-    const max_tokens = 32 * Number(counts || 20);
+    const kinds = counts ? +counts : 12;
 
     const {
         data: { choices },
     } = await __openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Please recommend ${counts} words related to '${id}' and HEX code related to each word. It's '{ "word": "#FFFFFF", ... }' shape of the JSON type.`,
-        max_tokens,
+        prompt: `Recommend ${kinds} words related to '${id}' and HEX color code related to each word. They're '{ "word": "#FFFFFF", ... }' shape of the JSON type.`,
+        temperature: 0.9,
+        max_tokens: 20 * kinds,
+        n: 1,
+        best_of: 1,
     });
 
     const { text } = choices[0];
-    // console.log(text);
 
     try {
-        const payload = JSON.parse(text ?? "{}");
-        // console.log(payload);
+        console.timeEnd("ch");
+        const payload = JSON.parse(text || "{}");
 
         res.status(200).json({
             payload,

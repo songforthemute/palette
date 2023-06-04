@@ -53,13 +53,10 @@ const SearchForm = ({
             />
             <Controller
                 render={({ field }) => (
-                    <Select
-                        {...field}
-                        options={["10", "15", "20", "25", "30"]}
-                    />
+                    <Select {...field} options={["6", "9", "12", "15"]} />
                 )}
                 name="counts"
-                defaultValue={"20"}
+                defaultValue={"12"}
                 control={control}
             />
         </Form>
