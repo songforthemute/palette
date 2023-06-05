@@ -3,9 +3,8 @@ import React from "react";
 import { act, render, screen } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import userEvent from "@testing-library/user-event";
-import Home from "./index";
+import Home from "../pages/index";
 import { ExampleCards, SearchForm } from "@components/Organisms";
-import { Button } from "@components/Atoms";
 
 jest.mock("next/router", () => require("next-router-mock"));
 
