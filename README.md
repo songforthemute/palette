@@ -9,7 +9,7 @@
 
 ---
 
-<img alt="Project Screenshot" src="https://file.notion.so/f/s/dfe34df9-1bc1-47c1-9d6a-3a147fbbd8f7/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-04-05_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_7.26.39.png?id=61b69a55-3a27-4045-8ce4-5048dc6cb138&table=block&spaceId=0808aacc-90cf-42dd-9736-c8efd0fc09b4&expirationTimestamp=1684255266912&signature=u4ec_VzDWDhTlQVkE-rCG-Ph_c24qk-HI76gzyoAE7U&downloadName=%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2023-04-05+%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE+7.26.39.png" />
+![preview](public/preview.gif)
 
 ---
 
@@ -24,7 +24,6 @@
 -   Medium Blog : [https://medium.com/@songforthemute](https://medium.com/@songforthemute)
 
 ---
-
 
 ## _1. 기술 스택_
 
