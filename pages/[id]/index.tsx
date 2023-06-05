@@ -136,7 +136,6 @@ const Search = () => {
         // check for previous fetching result
         if (id !== undefined) {
             const query = store.get(id as string);
-
             if (query) setResult({ ...query });
             else fetching(id);
         }
@@ -191,7 +190,11 @@ const Search = () => {
                             "relative transition duration-500 ease-in-out max-h-36"
                         )}
                     >
-                        <div className="absolute flex flex-col font-medium opacity-50 text-center top-[30%] inset-x-0 text-sm space-y-1">
+                        <div
+                            className={cls(
+                                "absolute flex flex-col font-medium text-center top-[30%] inset-x-0 text-sm space-y-1"
+                            )}
+                        >
                             <span className="mx-2">{item}</span>
                             <span>{code}</span>
                         </div>
@@ -235,10 +238,12 @@ const Search = () => {
                         }}
                         className={cls(
                             "relative transition duration-500 ease-in-out",
-                            loading ? "animate-pulse opacity-10" : ""
+                            loading
+                                ? "animate-pulse opacity-15 text-opacity-0"
+                                : ""
                         )}
                     >
-                        {loading ? null : (
+                        {loading && !data ? null : (
                             <>
                                 <div className="absolute flex flex-col font-medium opacity-50 text-center top-[30%] space-y-1 inset-x-0 text-sm">
                                     <span className="text-center mx-2">

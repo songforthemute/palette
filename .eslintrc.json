@@ -1,3 +1,39 @@
 {
-  "extends": "next/core-web-vitals"
+    "root": true,
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true,
+        "jest": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "ignorePatterns": ["jest.*.js"],
+    "extends": [
+        "plugin:@next/next/recommended",
+        "plugin:jest/recommended",
+        "plugin:testing-library/react",
+        "plugin:jest-dom/recommended"
+    ],
+    "plugins": ["jest", "import", "testing-library", "jest-dom", "jsx-a11y"],
+    "rules": {
+        "import/extensions": [
+            "error",
+            {
+                "tsx": "never",
+                "ts": "never",
+                "js": "never",
+                "jsx": "never"
+            }
+        ],
+        "react/react-in-jsx-scope": 0,
+        "react/jsx-props-no-spreading": 0
+    }
 }

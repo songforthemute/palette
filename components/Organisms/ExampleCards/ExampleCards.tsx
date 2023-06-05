@@ -24,6 +24,7 @@ const ExampleCards = () => {
         <>
             {exampleColors.map(([color, size], i) => (
                 <Card
+                    testid={color}
                     key={`example_${i}`}
                     style={{ backgroundColor: color }}
                     size={size}

@@ -24,14 +24,19 @@ const Home = () => {
             document.body.style.position = "fixed";
             document.body.style.width = "100%";
             document.body.style.top = `-${scrollY}px`;
+        }
 
-            // Re-enable scrolling when the component unmounts
-            return () => {
+        // Re-enable scrolling when the component unmounts
+        return () => {
+            if (
+                typeof window !== "undefined" &&
+                typeof document !== "undefined"
+            ) {
                 document.body.style.position = "";
                 document.body.style.top = "";
-                window.scrollTo(0, scrollY);
-            };
-        }
+                window?.scrollTo(0, scrollY);
+            }
+        };
     }, []);
 
     return (
@@ -42,7 +47,7 @@ const Home = () => {
             <div
                 className={cls(
                     `my-10 w-full mx-auto flex flex-col justify-center items-center transition duration-[750ms] ease-in`,
-                    searching ? "-translate-y-96" : ""
+                    searching ? "-translate-y-96 opacity-0" : ""
                 )}
             >
                 <div className={`text-center`}>
@@ -56,7 +61,10 @@ const Home = () => {
 
                 <SearchForm
                     placeholder="What do you have in mind? 🤔"
-                    className="w-4/5"
+                    className={cls(
+                        "w-4/5 transition duration-[750ms] ease-in",
+                        searching ? "opacity-0" : ""
+                    )}
                     onSubmit={onSubmit}
                 />
             </div>
@@ -64,7 +72,7 @@ const Home = () => {
             <Container
                 className={cls(
                     "overflow-y-hidden relative -bottom-4 transition duration-1000 ease-in",
-                    searching ? "translate-y-3/4" : ""
+                    searching ? "translate-y-3/4 opacity-0" : ""
                 )}
             >
                 <ExampleCards />
