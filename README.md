@@ -1,5 +1,7 @@
 # Palette
 
+[![Github Actions](https://github.com/songforthemute/palette/actions/workflows/github-actions.yaml/badge.svg)](https://github.com/songforthemute/palette/actions/workflows/github-actions.yaml)
+
 ## **_목차_**
 
 0. [개요](#0-개요)
