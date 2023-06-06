@@ -8,12 +8,14 @@ const createJestConfig = nextJest({
 
 // Any custom config you want to pass to Jest
 const customJestConfig = {
-    setupFilesAfterEnv: ["<rootDir>/jest.setup.js"], // 각각의 테스트 전에 실행할 모듈을 경로
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
     moduleDirectories: ["node_modules", "<rootDir>/"],
     testEnvironment: "jest-environment-jsdom",
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/src/$1", // tsconfig에서 절대경로 사용 시에 jest가 인식하도록 경로 매핑
     },
+    testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
 };
 
 // createJestConfig is exported in this way to ensure that next/jest can load the Next.js configuration, which is async

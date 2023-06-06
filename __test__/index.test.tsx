@@ -1,14 +1,11 @@
-// @jest-environment jsdom
-import React from "react";
-import { act, render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import userEvent from "@testing-library/user-event";
 import Home from "../pages/index";
-import { ExampleCards, SearchForm } from "@components/Organisms";
 
 jest.mock("next/router", () => require("next-router-mock"));
 
-describe("<Home>'s Components Unit Test", () => {
+describe("<Home>'s page components Unit Test", () => {
     window.scrollTo = jest.fn(); // avoid 'Not implemented: window'
 
     const user = userEvent.setup();
@@ -33,7 +30,7 @@ describe("<Home>'s Components Unit Test", () => {
     it("Search input in Form & Type anything", async () => {
         await mockRouter.push("/");
 
-        render(<SearchForm onSubmit={jest.mock} />);
+        render(<Home />);
 
         const searchInput = screen.getByRole("textbox");
 
@@ -65,7 +62,7 @@ describe("<Home>'s Components Unit Test", () => {
     it("Cards in <Home>", async () => {
         await mockRouter.push("/");
 
-        render(<ExampleCards />);
+        render(<Home />);
 
         const cards = screen.getAllByTestId(/\#[a-zA-Z0-9]/i);
 
@@ -77,7 +74,7 @@ describe("<Home>'s Components Unit Test", () => {
     });
 });
 
-describe("<Home>'s Components Functionnal Test", () => {
+describe("<Home>'s Form Functionnal Test", () => {
     window.scrollTo = jest.fn(); // avoid 'Not implemented: window'
 
     const user = userEvent.setup();
@@ -104,7 +101,7 @@ describe("<Home>'s Components Functionnal Test", () => {
 
         await user.click(submitButton);
 
-        act(() => {
+        await waitFor(() => {
             jest.useFakeTimers();
             jest.advanceTimersByTime(1100);
             expect(form).toHaveClass("opacity-0");
