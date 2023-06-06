@@ -14,9 +14,10 @@ jobs:
             - run: echo "🖥️ The workflow is now ready to test your code on the runner."
 
             - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: "16"
+              uses: ubuntu-latest
+              # uses: actions/setup-node@v3
+              # with:
+              #     node-version: "16"
 
             - name: Install dependencies
               run: npm install
