@@ -5,10 +5,11 @@ type Data = {
     keyword: string;
 };
 
-const delay = (time: number) =>
-    new Promise((resolve) => {
+const delay = (time: number) => {
+    return new Promise((resolve) => {
         setTimeout(resolve, time);
     });
+};
 
 export default async function handler(
     req: NextApiRequest,
@@ -49,7 +50,7 @@ export default async function handler(
         "Cortland Apple": "#AB3A60",
     };
 
-    await delay(5000).then(() => {});
+    await delay(3000).then(() => {});
 
     return res.status(200).json({
         id: body,

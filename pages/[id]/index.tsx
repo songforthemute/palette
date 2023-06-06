@@ -181,6 +181,7 @@ const Search = () => {
             <Container ref={containerRef} className="overflow-hidden">
                 {Object.entries(poked)?.map(([item, code], index) => (
                     <Card
+                        testid={code}
                         size={"first"}
                         key={`item_${index}`}
                         style={{
