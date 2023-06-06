@@ -23,6 +23,8 @@
 
 -   Medium Blog : [https://medium.com/@songforthemute](https://medium.com/@songforthemute)
 
+-   _현재 openai의 api 응답이 느려, 요청에 대한 응답이 도착하기 전에 Vercel의 Response limit time을 초과해 응답을 받지 못하는 경우가 있습니다. 다시 시도하거나, 낮은 개수로 요청해주시기 바랍니다._
+
 ---
 
 ## _1. 기술 스택_
@@ -35,11 +37,13 @@
 
 -   State Management : `React Context API`, `Session Storage API`
 
--   Styling : `Tailwind CSS (w/ CSS Module)`
+-   Style : `Tailwind CSS (w/ CSS Module)`
 
 -   Deployment : `Vercel`
 
 -   Others : `Openai`
+
+-   Test : `Jest`, `MSW`
 
 ---
 
@@ -61,6 +65,8 @@
 -   스타일링은 `Tailwind CSS`를 `CSS Module` 방식으로 적용시켰습니다. 폼 컴포넌트는 `React-hook-form`을 이용해 개발하였습니다. _(For styling, `Tailwind CSS` is applied in the `CSS Module`. The form component using `React-hook-form`.)_
 
 -   프로젝트의 배포는 `Vercel` 플랫폼을 이용하여 진행하였습니다. _(The project was deployed using the `Vercel` platform.)_
+
+-   테스트는 `Jest` 프레임워크와 `msw`를 이용해 시행하였습니다. _(The test was conducted using the `Jest` framework and `msw`.)_
 
 ---
 
@@ -94,6 +100,14 @@ yarn build
 ```
 
 -   애플리케이션이 `.next` 폴더에 빌드됩니다. _(Be built to `.next` folder.)_
+
+```
+# Run test by jest watch mode
+npm run test
+
+# Run test by jest & check coverage
+npm run test:ci
+```
 
 ---
 

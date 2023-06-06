@@ -12,9 +12,16 @@ jobs:
             - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
             - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
             - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-            - uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "16"
+
             - name: Install dependencies
               run: npm install
+
             - name: Run Jest test
               run: npm run test:ci
+
             - run: echo "🍏 This job's status is ${{ job.status }}."
