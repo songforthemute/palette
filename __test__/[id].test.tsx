@@ -1,9 +1,13 @@
 // @jest-environment jsdom
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import mockRouter from "next-router-mock";
 import userEvent from "@testing-library/user-event";
 import Search from "pages/[id]";
-import { ManagedFavorContext } from "@components/Contexts/favorContext";
+import {
+    ManagedFavorContext,
+    useFavor,
+} from "@components/Contexts/favorContext";
+import { PokedCards, SearchResult } from "@components/Organisms";
 
 const URL = "/apple?counts=20";
 
@@ -92,6 +96,55 @@ describe("<Search>'s page components Unit Test", () => {
             expect(btn).toBeInTheDocument();
         });
     });
+
+    it("SearchResult cards rendering", async () => {
+        await mockRouter.push(URL);
+
+        const data = {
+            "Apple Red": "FF0000",
+        };
+
+        render(
+            <SearchResult
+                loading={false}
+                data={data}
+                onClickPoke={jest.mock}
+                onClickCopy={jest.mock}
+            />
+        );
+
+        const redAppleCard = await screen.findByText(/apple red/i);
+        expect(redAppleCard).toBeInTheDocument();
+        expect(redAppleCard).toBeVisible();
+
+        const hexCopyBtn = await screen.findByRole("button", { name: /hex/i });
+        expect(hexCopyBtn).toBeInTheDocument();
+        expect(hexCopyBtn).toBeEnabled();
+    });
+
+    it("Poked cards rendering", async () => {
+        await mockRouter.push(URL);
+
+        const data = {
+            "Apple Red": "FF0000",
+        };
+
+        render(
+            <PokedCards
+                data={data}
+                onClickClear={jest.mock}
+                onClickCopy={jest.mock}
+            />
+        );
+
+        const redAppleCard = screen.getByTestId(/ff0000/i);
+        expect(redAppleCard).toBeInTheDocument();
+        expect(redAppleCard).toHaveTextContent(/ff0000/i);
+
+        const hexCopyBtn = screen.getByRole("button", { name: /hex/i });
+        expect(hexCopyBtn).toBeInTheDocument();
+        expect(hexCopyBtn).toBeEnabled();
+    });
 });
 
 describe("<Search>'s Functional Test", () => {
@@ -149,10 +202,11 @@ describe("<Search>'s Functional Test", () => {
         const palette = screen.getByRole("button", { name: /your palette/i });
         expect(palette).toBeEnabled();
 
-        await waitFor(async () => {
-            await user.click(palette);
-            // expect(palette).toHaveTextContent("Open Palette");
-        });
+        await user.click(palette);
+
+        // await waitFor(async () => {
+        //     expect(palette).toHaveTextContent(/open palette/i);
+        // });
     });
 });
 
@@ -190,5 +244,11 @@ describe("<Search>'s Context Test", () => {
         const pickedCard = screen.getByTestId("#FFFFFF30");
         expect(pickedCard).toBeInTheDocument();
         expect(pickedCard).toBeVisible();
+    });
+
+    it("Poked Context initial", async () => {
+        const { result } = renderHook((initialProps: any) => useFavor());
+
+        expect(result.current?.poked).toEqual({});
     });
 });

@@ -36,12 +36,12 @@ export default async function handler(
     // console.log(text);
 
     try {
-        const payload = JSON.parse(text || "{}");
+        const response = JSON.parse(text || "{}");
         // console.timeEnd("ch");
-        // console.log(payload);
+        // console.log(response);
 
         res.status(200).json({
-            payload,
+            response,
         });
     } catch (e) {
         res.status(404).json({

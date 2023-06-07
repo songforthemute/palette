@@ -5,14 +5,14 @@ import { cls } from "../libs";
 
 const Home = () => {
     const { push } = useRouter();
+    const [searching, setSearching] = useState(false);
+
     const onSubmit = ({ id, counts }: { id: string; counts: string }) => {
         setSearching(true);
         setTimeout(async () => {
             await push(`/${id}/?counts=${counts}`);
         }, 1100);
     };
-
-    const [searching, setSearching] = useState(false);
 
     // Scroll Lock
     useEffect(() => {

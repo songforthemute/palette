@@ -1,5 +1,5 @@
 import { Card } from "@components/Atoms";
-import { getRandomCardSize, getRandomHexColorCode } from "@libs/functions";
+import { getRandomCardSize, getRandomHexColorCode } from "@libs/utils";
 // import { useEffect } from "react";
 
 type exampleCardType = [string, "first" | "second" | "third"];

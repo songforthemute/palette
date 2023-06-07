@@ -1,4 +1,4 @@
-import { cls } from "@libs/functions";
+import { cls } from "@libs/utils";
 import { FC, ReactNode, Ref, forwardRef } from "react";
 import s from "./Container.module.css";
 

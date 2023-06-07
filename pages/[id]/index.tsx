@@ -1,31 +1,38 @@
-import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useFavor } from "@components/Contexts/favorContext";
-import { Button, Card, Container, SearchForm, Layout } from "components";
 import {
-    cardSizeConvertor,
-    cls,
-    convertColorType,
+    Button,
+    Container,
+    SearchForm,
+    Layout,
+    SearchResult,
+    HorizonLine,
+    PokedCards,
+} from "components";
+import {
     initialResult,
+    useClear,
+    useCopy,
     useMutate,
+    usePoke,
+    useToggleFold,
 } from "libs";
 
 import store from "@components/Contexts/sessionStorage";
 
+interface ResponseInterface {
+    [key: string]: string; // [relatedItem]: hex color code
+}
+
 interface FetchInterface {
     [key: string]: string | any;
-    payload: {
-        [key: string]: string; // [relatedItem]: hex color code
-    };
+    response: ResponseInterface;
     error?: string;
 }
 
-type colorType = "HEX" | "RGB";
-
 const Search = () => {
-    const [result, setResult] = useState<{ [key: string]: string }>(
-        initialResult()
-    );
+    const [result, setResult] = useState<ResponseInterface>(initialResult());
 
     const {
         query: { id, counts },
@@ -42,92 +49,19 @@ const Search = () => {
     };
 
     // The context that are of poked colors
-    const { poked, clearColor, pokeColor } = useFavor();
+    const { poked } = useFavor();
 
     // Poked color tab ref
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Toggle fold/unfold poked color tab
-    const onClickToggleFold = useCallback(
-        (e: MouseEvent<HTMLButtonElement>) => {
-            const {
-                style: { maxHeight },
-            } = containerRef.current as HTMLDivElement;
-
-            // Fold poked color tab
-            if (!maxHeight || maxHeight !== "0px") {
-                containerRef.current!.style.maxHeight = "0px";
-                e.currentTarget.innerText = "Open Palette";
-            }
-            // Unfold poked color tab
-            else {
-                containerRef.current!.style.maxHeight = "1024px"; // how much?
-                e.currentTarget.innerText = "Close Palette";
-            }
-        },
-        [containerRef]
-    );
-
+    const { onClickToggleFold } = useToggleFold<HTMLDivElement>(containerRef);
     // Press hex/rgb button
-    const onClickCopy = useCallback((e: MouseEvent<HTMLButtonElement>) => {
-        const {
-            dataset: { code, item },
-            innerText,
-        } = e.currentTarget;
-
-        if (code === "Copied!") return;
-
-        // Global state change: copy color code
-        if (typeof navigator !== "undefined" && navigator.clipboard) {
-            navigator.clipboard.writeText(code as string);
-        }
-
-        // Show 'Copied!' message
-        // e.currentTarget.innerText = "Copied!"; // Do not Manipulate directly
-        setResult((prev) => ({
-            ...prev,
-            [item as string]: "Copied!",
-        }));
-
-        // Return to original state
-        setTimeout(() => {
-            // (e.target as HTMLButtonElement).innerText = innerText; // Do not Manipulate directly
-            setResult((prev) => ({
-                ...prev,
-                [item as string]: convertColorType(
-                    code as string,
-                    innerText as colorType
-                ),
-            }));
-        }, 1500);
-    }, []);
-
+    const { onClickCopy } = useCopy<ResponseInterface>(setResult);
     // poke the color
-    const onClickPoke = useCallback(
-        (e: MouseEvent<HTMLButtonElement>) => {
-            const {
-                dataset: { code, item },
-            } = e.currentTarget;
-
-            // behavior after 'Copied!' message is displayed
-            if (code === "Copied!") return;
-
-            pokeColor(`${item}`, convertColorType(`${code}`, "HEX"));
-        },
-        [pokeColor]
-    );
-
+    const { onClickPoke } = usePoke();
     // delete poked color
-    const onClickClear = useCallback(
-        (e: MouseEvent<HTMLButtonElement>) => {
-            const {
-                dataset: { item },
-            } = e.currentTarget;
-
-            clearColor(`${item}`);
-        },
-        [clearColor]
-    );
+    const { onClickClear } = useClear();
 
     // initialize for fetching
     useEffect(() => {
@@ -143,11 +77,11 @@ const Search = () => {
 
     // data mapping
     useEffect(() => {
-        if (data?.payload && !loading) {
+        if (data?.response && !loading) {
             setResult({
-                ...data.payload,
+                ...data.response,
             });
-            store.set(id as string, data.payload);
+            store.set(id as string, data.response);
         }
     }, [data, setResult]);
 
@@ -179,107 +113,22 @@ const Search = () => {
             </div>
 
             <Container ref={containerRef} className="overflow-hidden">
-                {Object.entries(poked)?.map(([item, code], index) => (
-                    <Card
-                        testid={code}
-                        size={"first"}
-                        key={`item_${index}`}
-                        style={{
-                            backgroundColor: `${code}`,
-                        }}
-                        className={cls(
-                            "relative transition duration-500 ease-in-out max-h-36"
-                        )}
-                    >
-                        <div
-                            className={cls(
-                                "absolute flex flex-col font-medium text-center top-[30%] inset-x-0 text-sm space-y-1"
-                            )}
-                        >
-                            <span className="mx-2">{item}</span>
-                            <span>{code}</span>
-                        </div>
-                        <Button
-                            data-item={item}
-                            data-code={code}
-                            onClick={onClickCopy}
-                            className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
-                        >
-                            HEX
-                        </Button>
-                        <Button
-                            data-item={item}
-                            data-code={convertColorType(code, "RGB")}
-                            onClick={onClickCopy}
-                            className="absolute text-center bottom-3 left-16 p-2.5 text-xs leading-[0.25rem]"
-                        >
-                            RGB
-                        </Button>
-                        <Button
-                            data-item={item}
-                            data-code={code}
-                            onClick={onClickClear}
-                            className="absolute text-center top-3 right-3 aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
-                        >
-                            ✖️
-                        </Button>
-                    </Card>
-                ))}
+                <PokedCards
+                    data={poked}
+                    onClickClear={onClickClear}
+                    onClickCopy={onClickCopy}
+                />
             </Container>
 
-            <hr className="border-[0.1rem] rounded-full opacity-30 mt-4" />
+            <HorizonLine />
 
             <Container>
-                {Object.entries(result).map(([item, code], index) => (
-                    <Card
-                        size={cardSizeConvertor(index)}
-                        key={`item_${index}`}
-                        style={{
-                            backgroundColor: `${code}`,
-                        }}
-                        className={cls(
-                            "relative transition duration-500 ease-in-out",
-                            loading
-                                ? "animate-pulse opacity-15 text-opacity-0"
-                                : ""
-                        )}
-                    >
-                        {loading && !data ? null : (
-                            <>
-                                <div className="absolute flex flex-col font-medium opacity-50 text-center top-[30%] space-y-1 inset-x-0 text-sm">
-                                    <span className="text-center mx-2">
-                                        {item}
-                                    </span>
-                                    <span className="text-center">{code}</span>
-                                </div>
-                                <Button
-                                    data-item={item}
-                                    data-code={code}
-                                    onClick={onClickCopy}
-                                    className="absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem]"
-                                >
-                                    HEX
-                                </Button>
-                                <Button
-                                    data-item={item}
-                                    data-code={convertColorType(code, "RGB")}
-                                    onClick={onClickCopy}
-                                    className="absolute text-center bottom-3 left-16 p-2.5 text-xs leading-[0.25rem]"
-                                >
-                                    RGB
-                                </Button>
-                                <Button
-                                    data-item={item}
-                                    data-code={code}
-                                    onClick={onClickPoke}
-                                    className="absolute text-center flex justify-center items-center top-3 right-3 aspect-square p-1 rounded-full text-xs leading-[0.25rem]"
-                                >
-                                    ➕
-                                </Button>
-                            </>
-                        )}
-                    </Card>
-                ))}
+                <SearchResult
+                    data={result}
+                    loading={loading}
+                    onClickCopy={onClickCopy}
+                    onClickPoke={onClickPoke}
+                />
             </Container>
         </Layout>
     );

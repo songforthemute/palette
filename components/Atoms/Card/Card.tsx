@@ -1,4 +1,4 @@
-import { cls } from "@libs/functions";
+import { cls } from "@libs/utils";
 import type { CSSProperties, FC, ReactNode } from "react";
 import { memo } from "react";
 import s from "./Card.module.css";

@@ -1,4 +1,4 @@
-import { cls } from "@libs/functions";
+import { cls } from "@libs/utils";
 import type { FC, FormEventHandler, ReactNode } from "react";
 import s from "./Form.module.css";
 

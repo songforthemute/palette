@@ -1,10 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type Data = {
-    keyword: string;
-};
-
 const delay = (time: number) => {
     return new Promise((resolve) => {
         setTimeout(resolve, time);
@@ -17,7 +13,7 @@ export default async function handler(
 ) {
     const { body } = req;
 
-    const payload = {
+    const response = {
         "Apple Red": "#FF0000",
         "Apple Blossom": "#EEA6AC",
         "Green Apple": "#A6CC50",
@@ -54,6 +50,6 @@ export default async function handler(
 
     return res.status(200).json({
         id: body,
-        payload,
+        response,
     });
 }

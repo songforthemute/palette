@@ -1,4 +1,4 @@
-import { cls } from "@libs/functions";
+import { cls } from "@libs/utils";
 import type { FC, MouseEventHandler, ReactNode } from "react";
 import { memo } from "react";
 import s from "./Button.module.css";

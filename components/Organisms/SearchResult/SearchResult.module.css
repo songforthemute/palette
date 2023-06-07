@@ -1,0 +1,23 @@
+.card__initial {
+    @apply relative transition duration-500 ease-in-out;
+}
+
+.card__loading {
+    @apply animate-pulse opacity-15 text-opacity-0;
+}
+
+.card__textbox {
+    @apply absolute flex flex-col font-medium opacity-50 text-center top-[30%] space-y-1 inset-x-0 text-sm;
+}
+
+.card__hex__btn {
+    @apply absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem];
+}
+
+.card__rgb__btn {
+    @apply absolute text-center bottom-3 left-16 p-2.5 text-xs leading-[0.25rem];
+}
+
+.card__poke__btn {
+    @apply absolute text-center flex justify-center items-center top-3 right-3 aspect-square p-1 rounded-full text-xs leading-[0.25rem];
+}
