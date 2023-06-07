@@ -3,7 +3,7 @@
 }
 
 .card__loading {
-    @apply animate-pulse opacity-15 text-opacity-0;
+    @apply animate-pulse opacity-10 text-opacity-0;
 }
 
 .card__textbox {

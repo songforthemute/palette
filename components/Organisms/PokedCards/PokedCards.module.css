@@ -1,16 +1,16 @@
 .card__initial {
-    @apply "relative transition duration-500 ease-in-out max-h-36";
+    @apply relative transition duration-500 ease-in-out max-h-36;
 }
 
 .card__textbox {
-    @apply "absolute flex flex-col font-medium text-center top-[30%] inset-x-0 text-sm space-y-1";
+    @apply absolute flex flex-col opacity-medium font-medium text-center top-[30%] inset-x-0 text-sm space-y-1;
 }
 
 .card__hex__btn {
     @apply absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem];
 }
 
-.card__rbg__btn {
+.card__rgb__btn {
     @apply absolute text-center bottom-3 left-16 p-2.5 text-xs leading-[0.25rem];
 }
 

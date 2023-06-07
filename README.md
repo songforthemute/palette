@@ -47,6 +47,8 @@
 
 -   Test : `Jest`, `MSW`
 
+-   Automation: `Github Actions`
+
 ---
 
 ## _2. 프로젝트 상세_

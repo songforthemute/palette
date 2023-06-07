@@ -23,13 +23,13 @@ const SearchResult = ({ data, loading, onClickCopy, onClickPoke }: Props) => {
                         backgroundColor: `${code}`,
                     }}
                     className={cls(
-                        s.card_initial,
-                        loading ? s.card_loading : ""
+                        s.card__initial,
+                        loading ? s.card__loading : ""
                     )}
                 >
                     {loading ? null : (
                         <>
-                            <div className={s.card_textbox}>
+                            <div className={s.card__textbox}>
                                 <span className="text-center mx-2">{item}</span>
                                 <span className="text-center">{code}</span>
                             </div>
