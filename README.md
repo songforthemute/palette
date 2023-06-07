@@ -27,6 +27,116 @@
 
 -   _현재 openai의 api 응답이 느려, 요청에 대한 응답이 도착하기 전에 Vercel의 Response limit time을 초과해 응답을 받지 못하는 경우가 있습니다. 다시 시도하거나, 낮은 개수로 요청해주시기 바랍니다._
 
+-   <details>
+       <summary><i>프로젝트 구조(Project structure)</i></summary>
+
+        📦palette
+        ┣ 📂.github
+        ┃ ┗ 📂workflows
+        ┃ ┃ ┗ 📜github-actions.yaml
+        ┣ 📂.vscode
+        ┃ ┗ 📜settings.json
+        ┣ 📂**test**
+        ┃ ┣ 📜[id].test.tsx
+        ┃ ┗ 📜index.test.tsx
+        ┣ 📂components
+        ┃ ┣ 📂Atoms
+        ┃ ┃ ┣ 📂Button
+        ┃ ┃ ┃ ┣ 📜Button.module.css
+        ┃ ┃ ┃ ┣ 📜Button.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂Card
+        ┃ ┃ ┃ ┣ 📜Card.module.css
+        ┃ ┃ ┃ ┣ 📜Card.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂Container
+        ┃ ┃ ┃ ┣ 📜Container.module.css
+        ┃ ┃ ┃ ┣ 📜Container.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂Form
+        ┃ ┃ ┃ ┣ 📜Form.module.css
+        ┃ ┃ ┃ ┣ 📜form.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂HorizonLine
+        ┃ ┃ ┃ ┣ 📜HorizonLine.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂Input
+        ┃ ┃ ┃ ┣ 📜Input.module.css
+        ┃ ┃ ┃ ┣ 📜Input.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂Select
+        ┃ ┃ ┃ ┣ 📜Select.module.css
+        ┃ ┃ ┃ ┣ 📜Select.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┗ 📜index.ts
+        ┃ ┣ 📂Contexts
+        ┃ ┃ ┣ 📜favorContext.tsx
+        ┃ ┃ ┗ 📜sessionStorage.ts
+        ┃ ┣ 📂Organisms
+        ┃ ┃ ┣ 📂ExampleCards
+        ┃ ┃ ┃ ┣ 📜ExampleCards.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂PokedCards
+        ┃ ┃ ┃ ┣ 📜PokedCards.module.css
+        ┃ ┃ ┃ ┣ 📜PokedCards.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂SearchForm
+        ┃ ┃ ┃ ┣ 📜SearchForm.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┣ 📂SearchResult
+        ┃ ┃ ┃ ┣ 📜SearchResult.module.css
+        ┃ ┃ ┃ ┣ 📜SearchResult.tsx
+        ┃ ┃ ┃ ┗ 📜index.ts
+        ┃ ┃ ┗ 📜index.ts
+        ┃ ┣ 📂layout
+        ┃ ┃ ┣ 📜index.ts
+        ┃ ┃ ┣ 📜layout.module.css
+        ┃ ┃ ┗ 📜layout.tsx
+        ┃ ┗ 📜index.ts
+        ┣ 📂libs
+        ┃ ┣ 📜client.ts
+        ┃ ┣ 📜customHooks.ts
+        ┃ ┣ 📜index.ts
+        ┃ ┣ 📜useMutate.ts
+        ┃ ┗ 📜utils.ts
+        ┣ 📂mocks
+        ┃ ┣ 📜handlers.ts
+        ┃ ┗ 📜server.ts
+        ┣ 📂pages
+        ┃ ┣ 📂[id]
+        ┃ ┃ ┗ 📜index.tsx
+        ┃ ┣ 📂api
+        ┃ ┃ ┣ 📜[id].ts
+        ┃ ┃ ┗ 📜mock.ts
+        ┃ ┣ 📜_app.tsx
+        ┃ ┣ 📜_document.tsx
+        ┃ ┗ 📜index.tsx
+        ┣ 📂public
+        ┃ ┣ 📜favicon.ico
+        ┃ ┣ 📜next.svg
+        ┃ ┣ 📜preview.gif
+        ┃ ┣ 📜thirteen.svg
+        ┃ ┗ 📜vercel.svg
+        ┣ 📂styles
+        ┃ ┗ 📜globals.css
+        ┣ 📜.DS_Store
+        ┣ 📜.env
+        ┣ 📜.eslintrc.json
+        ┣ 📜.gitattributes
+        ┣ 📜.gitignore
+        ┣ 📜README.md
+        ┣ 📜jest.config.js
+        ┣ 📜jest.setup.js
+        ┣ 📜next-env.d.ts
+        ┣ 📜next.config.js
+        ┣ 📜package-lock.json
+        ┣ 📜package.json
+        ┣ 📜postcss.config.js
+        ┣ 📜tailwind.config.js
+        ┗ 📜tsconfig.json
+
+    </details>
+
 ---
 
 ## _1. 기술 스택_
