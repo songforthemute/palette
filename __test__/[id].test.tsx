@@ -48,6 +48,29 @@ describe("<Search>'s page components Unit Test", () => {
         expect(searchInput).toHaveValue("chocolate");
     });
 
+    it("Submit button in Form", async () => {
+        await mockRouter.push(URL);
+
+        render(<Search />);
+
+        const searchInput = screen.getByRole("textbox");
+        expect(searchInput).toBeInTheDocument();
+        expect(searchInput).toBeEnabled();
+
+        const submitButton = screen.getByRole("button", { name: "→" });
+        expect(submitButton).toBeInTheDocument();
+        expect(submitButton).toBeEnabled();
+
+        await user.clear(searchInput);
+        await user.type(searchInput, "chocolate");
+
+        // input | toHaveTextContent()
+        // react-hook-form | toHaveValue()
+        expect(searchInput).toHaveValue("chocolate");
+        expect(submitButton).toBeInTheDocument();
+        expect(submitButton).toBeEnabled();
+    });
+
     it("Counts Select in Form", async () => {
         await mockRouter.push(URL);
 
@@ -207,6 +230,38 @@ describe("<Search>'s Functional Test", () => {
         // await waitFor(async () => {
         //     expect(palette).toHaveTextContent(/open palette/i);
         // });
+    });
+
+    it("Type in the input & Submit the form", async () => {
+        await mockRouter.push(URL);
+
+        render(<Search />);
+
+        const form = screen.getByRole("form");
+        const searchInput = screen.getByRole("textbox");
+        const countsSelect = screen.getByRole("combobox");
+
+        await user.clear(searchInput);
+        await user.type(searchInput, "kakao");
+        await user.selectOptions(countsSelect, "12");
+
+        expect(form).toHaveFormValues({
+            id: "kakao",
+            counts: "12",
+        });
+
+        const submitButton = screen.getByRole("button", { name: "→" });
+        await user.click(submitButton);
+
+        await waitFor(() => {
+            new Promise((resolve) => setTimeout(resolve, 2000)).then(() => {
+                expect(window?.location).toEqual(
+                    "http://localhost:3000/kakao?counts=12"
+                );
+            });
+        });
+
+        // How to define the situation when submitted the form?
     });
 });
 

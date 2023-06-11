@@ -1,0 +1,12 @@
+.root {
+    @apply relative;
+}
+
+.button__submit {
+    @apply absolute inset-y-0 right-20 aspect-square text-4xl rounded-full scale-50 shadow-md;
+}
+
+.button__submit:hover,
+.button__submit:focus {
+    @apply outline-none ring-4 ring-offset-2 ring-fuchsia-500;
+}

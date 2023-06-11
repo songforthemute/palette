@@ -1,6 +1,8 @@
-import { Form, Input, Select } from "@components/Atoms";
+import { Button, Form, Input, Select } from "@components/Atoms";
+import { cls } from "@libs/utils";
 import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
+import s from "./SearchForm.module.css";
 
 interface FormInterface {
     id: string;
@@ -34,7 +36,7 @@ const SearchForm = ({
             onSubmit={handleSubmit(onSubmit)}
             ariaLabel="searching color form"
             ariaRoledescription="Search color form by keyword"
-            className={className}
+            className={cls(className, s.root)}
         >
             <Input
                 required
@@ -51,6 +53,9 @@ const SearchForm = ({
                     },
                 })}
             />
+
+            <Button className={s.button__submit}>→</Button>
+
             <Controller
                 render={({ field }) => (
                     <Select {...field} options={["6", "8", "10", "12", "14"]} />

@@ -45,6 +45,28 @@ describe("<Home>'s page components Unit Test", () => {
         expect(searchInput).toHaveValue("kakao");
     });
 
+    it("Submit button in Form & isEnable", async () => {
+        await mockRouter.push("/");
+
+        render(<Home />);
+
+        const searchInput = screen.getByRole("textbox");
+
+        expect(searchInput).toBeInTheDocument();
+        expect(searchInput).toBeEnabled();
+
+        await user.clear(searchInput);
+        await user.type(searchInput, "kakao");
+
+        // input | toHaveTextContent()
+        // react-hook-form | toHaveValue()
+        expect(searchInput).toHaveValue("kakao");
+
+        const submitButton = screen.getByRole("button");
+        expect(submitButton).toBeInTheDocument();
+        expect(submitButton).toBeEnabled();
+    });
+
     it("Counts select in Form & Select other value", async () => {
         await mockRouter.push("/");
 
@@ -96,15 +118,15 @@ describe("<Home>'s Form Functionnal Test", () => {
             counts: "12",
         });
 
-        const submitButton = document?.createElement("button");
-        form.appendChild(submitButton);
-
+        const submitButton = screen.getByRole("button");
         await user.click(submitButton);
 
         await waitFor(() => {
-            jest.useFakeTimers();
-            jest.advanceTimersByTime(1100);
-            expect(form).toHaveClass("opacity-0");
+            new Promise((resolve) => setTimeout(resolve, 2000)).then(() => {
+                expect(window?.location).toEqual(
+                    "http://localhost:3000/kakao?counts=12"
+                );
+            });
         });
 
         // How to define the situation when submitted the form?
