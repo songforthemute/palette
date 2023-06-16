@@ -141,6 +141,8 @@
 
 ## _1. 기술 스택_
 
+![palette_application](https://github.com/songforthemute/palette/assets/105373350/576ce426-881f-4e8d-9b5a-0a9bdf955068)
+
 -   Language : `TypeScript`
 
 -   Framework : `Next.js`
