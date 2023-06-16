@@ -119,7 +119,6 @@
         ┃ ┗ 📜vercel.svg
         ┣ 📂styles
         ┃ ┗ 📜globals.css
-        ┣ 📜.DS_Store
         ┣ 📜.env
         ┣ 📜.eslintrc.json
         ┣ 📜.gitattributes
@@ -141,7 +140,7 @@
 
 ## _1. 기술 스택_
 
-![palette_application](https://github.com/songforthemute/palette/assets/105373350/576ce426-881f-4e8d-9b5a-0a9bdf955068)
+![palette_application](https://github.com/songforthemute/palette/assets/105373350/e864650f-771e-4f38-8e02-04d931d0e579)
 
 -   Language : `TypeScript`
 
