@@ -1,5 +1,5 @@
 import { cls } from "@libs/utils";
-import { forwardRef, MutableRefObject } from "react";
+import { forwardRef, type MutableRefObject } from "react";
 import s from "./Input.module.css";
 
 interface Props {

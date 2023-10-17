@@ -1,4 +1,4 @@
-import { FC, MutableRefObject, forwardRef } from "react";
+import { type FC, type MutableRefObject, forwardRef } from "react";
 import s from "./Select.module.css";
 
 interface Props {

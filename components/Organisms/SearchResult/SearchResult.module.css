@@ -10,6 +10,10 @@
     @apply absolute flex flex-col font-medium opacity-50 text-center top-[30%] space-y-1 inset-x-0 text-sm;
 }
 
+.card__textbox__dark {
+    @apply absolute flex flex-col font-medium text-WH opacity-50 text-center top-[30%] space-y-1 inset-x-0 text-sm;
+}
+
 .card__hex__btn {
     @apply absolute items-center justify-center text-center bottom-3 left-3 p-2.5 text-xs leading-[0.25rem];
 }

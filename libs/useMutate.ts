@@ -1,6 +1,6 @@
 import { useState } from "react";
+import type { MethodType } from "./types";
 
-type MethodType = "GET" | "POST" | "PUT" | "DELETE";
 type useMutateReturn<T> = [(data: any) => void, useMutateState<T>];
 interface useMutateState<T> {
     loading: boolean;

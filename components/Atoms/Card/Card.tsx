@@ -11,7 +11,13 @@ interface Props {
     testid?: string;
 }
 
-const Card: FC<Props> = ({ className = "", size, children, style, testid }) => {
+const Card: FC<Props> = ({
+    className = "",
+    size,
+    children,
+    style = {},
+    testid,
+}) => {
     return (
         <div
             style={style}

@@ -1,5 +1,5 @@
 import { Button, Card } from "@components/Atoms";
-import { convertColorType } from "@libs/utils";
+import convertColorType from "@libs/convertColorType";
 import type { MouseEvent } from "react";
 import s from "./PokedCards.module.css";
 

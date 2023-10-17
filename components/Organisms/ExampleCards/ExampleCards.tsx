@@ -1,14 +1,25 @@
 import { Card } from "@components/Atoms";
 import { getRandomCardSize, getRandomHexColorCode } from "@libs/utils";
-// import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 type exampleCardType = [string, "first" | "second" | "third"];
 
 const ExampleCards = () => {
-    let exampleColors: exampleCardType[] = Array.from(Array(21), () => [
-        getRandomHexColorCode(),
-        getRandomCardSize(),
-    ]);
+    const [examples, setExamples] = useState<exampleCardType[]>([]);
+    /**
+     * SOLVED ERROR: Prop `style` did not match.
+     *  When serverSideRender in Next.js,
+     *  An error occurred when did not accord between Client-HTML & HTML by Server
+     *  cf. Hydration UI Error
+     */
+    useEffect(() => {
+        setExamples(
+            Array.from(Array(21), () => [
+                getRandomHexColorCode(),
+                getRandomCardSize(),
+            ])
+        );
+    }, []);
 
     // useEffect(() => {
     //     const intervalId = setInterval(() => {
@@ -22,7 +33,7 @@ const ExampleCards = () => {
 
     return (
         <>
-            {exampleColors.map(([color, size], i) => (
+            {examples.map(([color, size], i) => (
                 <Card
                     testid={color}
                     key={`example_${i}`}

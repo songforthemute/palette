@@ -11,14 +11,13 @@ import {
     PokedCards,
 } from "components";
 import {
-    initialResult,
+    getInitialResult,
     useClear,
     useCopy,
     useMutate,
     usePoke,
     useToggleFold,
 } from "libs";
-
 import store from "@components/Contexts/sessionStorage";
 
 interface ResponseInterface {
@@ -32,9 +31,10 @@ interface FetchInterface {
 }
 
 const Search = () => {
-    const [result, setResult] = useState<ResponseInterface>(initialResult());
+    const [result, setResult] = useState<ResponseInterface>(getInitialResult());
 
     const {
+        push,
         query: { id, counts },
     } = useRouter();
 
@@ -43,7 +43,6 @@ const Search = () => {
         method: "POST",
     });
 
-    const { push } = useRouter();
     const onSubmit = ({ id, counts }: { id: string; counts: string }) => {
         push(`/${id}?counts=${counts}`);
     };
@@ -56,16 +55,13 @@ const Search = () => {
 
     // Toggle fold/unfold poked color tab
     const { onClickToggleFold } = useToggleFold<HTMLDivElement>(containerRef);
-    // Press hex/rgb button
-    const { onClickCopy } = useCopy<ResponseInterface>(setResult);
-    // poke the color
-    const { onClickPoke } = usePoke();
-    // delete poked color
-    const { onClickClear } = useClear();
+    const { onClickCopy } = useCopy<ResponseInterface>(setResult); // Press hex/rgb button
+    const { onClickPoke } = usePoke(); // poke the color
+    const { onClickClear } = useClear(); // delete poked color
 
     // initialize for fetching
     useEffect(() => {
-        setResult(initialResult());
+        setResult(getInitialResult());
 
         // check for previous fetching result
         if (id !== undefined) {

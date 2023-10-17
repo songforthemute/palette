@@ -79,7 +79,7 @@ describe("<Search>'s page components Unit Test", () => {
         const countsSelect = screen.getByRole("combobox");
         expect(countsSelect).toBeInTheDocument();
         expect(countsSelect).toBeEnabled();
-        expect(countsSelect).toHaveValue("10");
+        expect(countsSelect).toHaveValue("12");
 
         await user.selectOptions(countsSelect, "8");
         expect(countsSelect).toHaveValue("8");
@@ -193,7 +193,7 @@ describe("<Search>'s Functional Test", () => {
         await user.click(searchInput);
         await user.paste();
 
-        expect(searchInput).toHaveValue("#FFFFFF30");
+        expect(searchInput).toHaveValue("#FFFFFF01");
     });
 
     it("Rgb button's Copy & Paste", async () => {
@@ -214,7 +214,7 @@ describe("<Search>'s Functional Test", () => {
         await user.click(searchInput);
         await user.paste();
 
-        expect(searchInput).toHaveValue("255, 255, 255");
+        expect(searchInput).toHaveValue("255, 255, 255, 1");
     });
 
     it("Fold & Unfold Palette", async () => {
@@ -281,7 +281,7 @@ describe("<Search>'s Context Test", () => {
         const pickBtn = pickBtns[0];
         await user.click(pickBtn);
 
-        const pickedCard = screen.getByTestId("#FFFFFF30");
+        const pickedCard = screen.getByTestId("#FFFFFF01");
         expect(pickedCard).toBeInTheDocument();
     });
 
@@ -296,7 +296,7 @@ describe("<Search>'s Context Test", () => {
         const pickBtn = pickBtns[0];
         await user.click(pickBtn);
 
-        const pickedCard = screen.getByTestId("#FFFFFF30");
+        const pickedCard = screen.getByTestId("#FFFFFF01");
         expect(pickedCard).toBeInTheDocument();
         expect(pickedCard).toBeVisible();
     });

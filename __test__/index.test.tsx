@@ -72,13 +72,14 @@ describe("<Home>'s page components Unit Test", () => {
 
         render(<Home />);
 
+        const count = "12";
         const countsSelect = screen.getByRole("combobox");
         expect(countsSelect).toBeInTheDocument();
         expect(countsSelect).toBeEnabled();
-        expect(countsSelect).toHaveValue("10");
+        expect(countsSelect).toHaveValue(count);
 
-        await user.selectOptions(countsSelect, "12");
-        expect(countsSelect).toHaveValue("12");
+        await user.selectOptions(countsSelect, count);
+        expect(countsSelect).toHaveValue(count);
     });
 
     it("Cards in <Home>", async () => {
@@ -105,17 +106,18 @@ describe("<Home>'s Form Functionnal Test", () => {
         await mockRouter.push("/");
         render(<Home />);
 
+        const count = "12";
         const form = screen.getByRole("form");
         const searchInput = screen.getByRole("textbox");
         const countsSelect = screen.getByRole("combobox");
 
         await user.clear(searchInput);
         await user.type(searchInput, "kakao");
-        await user.selectOptions(countsSelect, "12");
+        await user.selectOptions(countsSelect, count);
 
         expect(form).toHaveFormValues({
             id: "kakao",
-            counts: "12",
+            counts: count,
         });
 
         const submitButton = screen.getByRole("button");

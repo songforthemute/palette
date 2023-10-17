@@ -16,6 +16,8 @@ interface Props {
     defaultValue?: string;
 }
 
+const OPTIONS = ["8", "12", "16", "20"];
+
 const SearchForm = ({
     onSubmit,
     className = "",
@@ -57,11 +59,9 @@ const SearchForm = ({
             <Button className={s.button__submit}>→</Button>
 
             <Controller
-                render={({ field }) => (
-                    <Select {...field} options={["6", "8", "10", "12", "14"]} />
-                )}
+                render={({ field }) => <Select {...field} options={OPTIONS} />}
                 name="counts"
-                defaultValue={"10"}
+                defaultValue={"12"}
                 control={control}
             />
         </Form>

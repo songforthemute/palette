@@ -1,6 +1,7 @@
 import type { MouseEvent } from "react";
 import { Button, Card } from "@components/Atoms";
-import { cardSizeConvertor, cls, convertColorType } from "@libs/utils";
+import { cardSizeConvertor, cls, isColorDark } from "@libs/utils";
+import convertColorType from "@libs/convertColorType";
 import s from "./SearchResult.module.css";
 
 interface Props {
@@ -11,6 +12,8 @@ interface Props {
     onClickCopy: (e: MouseEvent<HTMLButtonElement> | any) => void;
     onClickPoke: (e: MouseEvent<HTMLButtonElement> | any) => void;
 }
+
+const INIT_COLOR = "#FFFFFF00";
 
 const SearchResult = ({ data, loading, onClickCopy, onClickPoke }: Props) => {
     return (
@@ -29,15 +32,36 @@ const SearchResult = ({ data, loading, onClickCopy, onClickPoke }: Props) => {
                 >
                     {loading ? null : (
                         <>
-                            <div className={s.card__textbox}>
+                            <div
+                                className={
+                                    isColorDark(code)
+                                        ? s.card__textbox__dark
+                                        : s.card__textbox
+                                }
+                            >
                                 <span className="text-center mx-2">{item}</span>
                                 <span className="text-center">{code}</span>
                             </div>
                             <Button
                                 data-item={item}
                                 data-code={code}
+                                onClick={onClickPoke}
+                                className={cls(
+                                    s.card__poke__btn,
+                                    code === INIT_COLOR ? "opacity-[0.01]" : ""
+                                )}
+                            >
+                                ➕
+                            </Button>
+
+                            <Button
+                                data-item={item}
+                                data-code={code}
                                 onClick={onClickCopy}
-                                className={s.card__hex__btn}
+                                className={cls(
+                                    s.card__hex__btn,
+                                    code === INIT_COLOR ? "opacity-[0.01]" : ""
+                                )}
                             >
                                 HEX
                             </Button>
@@ -45,17 +69,12 @@ const SearchResult = ({ data, loading, onClickCopy, onClickPoke }: Props) => {
                                 data-item={item}
                                 data-code={convertColorType(code, "RGB")}
                                 onClick={onClickCopy}
-                                className={s.card__rgb__btn}
+                                className={cls(
+                                    s.card__rgb__btn,
+                                    code === INIT_COLOR ? "opacity-[0.01]" : ""
+                                )}
                             >
                                 RGB
-                            </Button>
-                            <Button
-                                data-item={item}
-                                data-code={code}
-                                onClick={onClickPoke}
-                                className={s.card__poke__btn}
-                            >
-                                ➕
                             </Button>
                         </>
                     )}

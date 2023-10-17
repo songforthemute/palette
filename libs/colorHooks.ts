@@ -1,12 +1,13 @@
 import {
-    Dispatch,
-    MouseEvent,
-    RefObject,
-    SetStateAction,
+    type Dispatch,
+    type MouseEvent,
+    type RefObject,
+    type SetStateAction,
     useCallback,
 } from "react";
-import { convertColorType } from "./utils";
 import { useFavor } from "@components/Contexts/favorContext";
+import convertColorType from "./convertColorType";
+import { ColorType } from "./types";
 
 export const useToggleFold = <T extends HTMLElement>(
     ref: RefObject<T | HTMLDivElement>
@@ -34,15 +35,13 @@ export const useToggleFold = <T extends HTMLElement>(
     return { onClickToggleFold };
 };
 
-type colorType = "HEX" | "RGB";
-
 export const useCopy = <T extends {}>(
     setState: Dispatch<SetStateAction<T>>
 ) => {
     const onClickCopy = useCallback((e: MouseEvent<HTMLButtonElement>) => {
         const {
             dataset: { code, item },
-            innerText,
+            textContent,
         } = e.currentTarget;
 
         if (code === "Copied!") return;
@@ -66,7 +65,7 @@ export const useCopy = <T extends {}>(
                 ...prev,
                 [item as string]: convertColorType(
                     code as string,
-                    innerText as colorType
+                    textContent as ColorType
                 ),
             }));
         }, 1500);

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import type { FC, ReactNode } from "react";
 import s from "./layout.module.css";
 
@@ -16,7 +16,7 @@ const Layout: FC<Props> = ({
     hasBackward = false,
     children,
 }) => {
-    const { back } = useRouter();
+    // const { back } = useRouter();
 
     return (
         <>
