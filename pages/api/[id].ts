@@ -1,13 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import __openai from "@libs/client";
+import { getCompletion } from "@libs/opneai";
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    // console.time("ch");
-
     const {
         query: { id, counts },
         method,
@@ -19,29 +16,19 @@ export default async function handler(
     }
 
     const kinds = counts ? +counts : 10;
-    const max_tokens = kinds * 22;
+    // const max_tokens = kinds * 30;
 
-    const {
-        data: { choices },
-    } = await __openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: `Recommend ${kinds} words related to '${id}' and HEX color code related to each word. They're '{ "word": "#FFFFFF", ... }' shape of the JSON type.`,
-        temperature: 0.55,
-        max_tokens,
-        n: 1,
-        best_of: 1,
-    });
+    // const prompt = `Recommend ${kinds} words related to '${id}' and HEX color code related to each word. They're '{ "word": "#FFFFFF" }' shape of the JSON type.`;
+    const prompt2 = `'${id}'와 관련된 키워드와 HEX 색상 코드를 ${kinds}개 추천해주세요. '{ "키워드": "#FFFFFF", ... }' 의 형태로 답변하세요.`;
 
-    const { text } = choices[0];
-    // console.log(text);
+    const result = await getCompletion(prompt2);
+    const json = await JSON.parse(result?.message.content);
+
+    // console.log(json);
 
     try {
-        const response = JSON.parse(text || "{}");
-        // console.timeEnd("ch");
-        // console.log(response);
-
         res.status(200).json({
-            response,
+            response: json,
         });
     } catch (e) {
         res.status(404).json({

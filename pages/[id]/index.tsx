@@ -79,7 +79,7 @@ const Search = () => {
             });
             store.set(id as string, data.response);
         }
-    }, [data, setResult]);
+    }, [data]);
 
     return (
         <Layout
